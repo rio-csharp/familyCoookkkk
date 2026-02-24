@@ -1,0 +1,25 @@
+<view class="container">
+  <view class="card hero">
+    <view class="title">家庭食谱平台</view>
+    <view class="subtle">当前用户：{{currentUser ? currentUser.name : "-"}}</view>
+    <input class="input" value="{{keyword}}" bindinput="onInput" placeholder="搜索标题/描述/标签" confirm-type="search" bindconfirm="onSearch" />
+    <view class="btn-row">
+      <button size="mini" class="btn-primary" bindtap="onSearch">搜索</button>
+      <button size="mini" class="btn-light" bindtap="clearKeyword">清空</button>
+      <button size="mini" class="btn-light" bindtap="goCreate">新建食谱</button>
+    </view>
+    <view class="btn-row panel-btns">
+      <button size="mini" class="btn-light" bindtap="goFamily">家庭管理</button>
+      <button size="mini" class="btn-light" bindtap="goProfile">用户管理</button>
+      <button size="mini" class="btn-light" bindtap="goTools">辅助工具</button>
+    </view>
+  </view>
+  <view class="section-title">食谱列表</view>
+  <view wx:for="{{recipes}}" wx:key="id" class="card recipe-card" data-id="{{item.id}}" bindtap="goDetail">
+    <view class="recipe-title">{{item.title}}</view>
+    <view class="subtle">{{item.description}}</view>
+    <view><text class="tag" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text></view>
+    <view class="meta">作者：{{item.authorName}} · 点赞 {{item.likeCount}} · 收藏 {{item.favoriteCount}}</view>
+  </view>
+  <view wx:if="{{!recipes.length}}" class="card">暂无数据，点击“新建食谱”开始。</view>
+</view>

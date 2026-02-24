@@ -1,0 +1,19 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/home/home",
+    "pages/recipe-detail/recipe-detail",
+    "pages/recipe-edit/recipe-edit",
+    "pages/family/family",
+    "pages/profile/profile",
+    "pages/tools/tools"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#ff8a3d",
+    "navigationBarTitleText": "家庭食谱",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#fff7f1"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

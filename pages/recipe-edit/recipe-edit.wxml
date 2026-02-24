@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="card">
+    <view class="section-title">{{id ? "编辑食谱" : "新建食谱"}}</view>
+    <input class="input" data-f="title" value="{{title}}" bindinput="onInput" placeholder="标题" />
+    <textarea class="textarea" data-f="description" value="{{description}}" bindinput="onInput" placeholder="简介"></textarea>
+    <input class="input" data-f="tags" value="{{tags}}" bindinput="onInput" placeholder="标签，逗号分隔" />
+    <textarea class="textarea" data-f="ingredients" value="{{ingredients}}" bindinput="onInput" placeholder="食材，每行 名称|用量"></textarea>
+    <textarea class="textarea" data-f="steps" value="{{steps}}" bindinput="onInput" placeholder="步骤，每行一步"></textarea>
+    <button class="btn-primary" bindtap="save">保存</button>
+  </view>
+</view>

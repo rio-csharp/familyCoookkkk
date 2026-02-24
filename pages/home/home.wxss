@@ -1,0 +1,18 @@
+.hero {
+  background: linear-gradient(145deg, #fff7ef, #fff);
+}
+
+.panel-btns {
+  margin-top: 6rpx;
+}
+
+.recipe-card {
+  border: 1rpx solid #ffe5cc;
+}
+
+.recipe-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #7b441e;
+  margin-bottom: 8rpx;
+}

@@ -1,0 +1,25 @@
+<view class="container">
+  <view class="card">
+    <view class="section-title">采购清单</view>
+    <view wx:for="{{shoppingList}}" wx:key="index" class="item-row">
+      <text>{{index + 1}}. {{item}}</text>
+      <button size="mini" class="btn-light" data-i="{{index}}" bindtap="removeItem">删除</button>
+    </view>
+    <input class="input" data-f="newItem" value="{{newItem}}" bindinput="onInput" placeholder="新增清单项" />
+    <button class="btn-primary" bindtap="addItem">添加清单项</button>
+  </view>
+  <view class="card">
+    <view class="section-title">烹饪计时器</view>
+    <input class="input" data-f="timerMin" value="{{timerMin}}" bindinput="onInput" placeholder="分钟" type="number" />
+    <view class="timer-text">剩余：{{timerText}}</view>
+    <view class="btn-row">
+      <button size="mini" class="btn-light" bindtap="startTimer">开始</button>
+      <button size="mini" class="btn-light" bindtap="stopTimer">停止</button>
+    </view>
+  </view>
+  <view class="card">
+    <view class="section-title">今日吃什么</view>
+    <button class="btn-primary" bindtap="randomRecipe">随机推荐一道菜</button>
+    <view class="recommend-text">{{randomText}}</view>
+  </view>
+</view>

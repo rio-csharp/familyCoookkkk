@@ -1,0 +1,28 @@
+<view class="container" wx:if="{{recipe}}">
+  <view class="card">
+    <view class="section-title">{{recipe.title}}</view>
+    <view class="subtle">{{recipe.description}}</view>
+    <view><text class="tag" wx:for="{{recipe.tags}}" wx:key="*this">{{item}}</text></view>
+    <view class="meta">作者：{{recipe.authorName}} · 点赞 {{recipe.likeCount}} · 收藏 {{recipe.favoriteCount}}</view>
+    <view class="btn-row action-row">
+      <button size="mini" class="btn-light" bindtap="like">{{recipe.liked ? "取消点赞" : "点赞"}}</button>
+      <button size="mini" class="btn-light" bindtap="favorite">{{recipe.favorited ? "取消收藏" : "收藏"}}</button>
+      <button wx:if="{{recipe.isOwner}}" size="mini" class="btn-light" bindtap="editRecipe">编辑</button>
+      <button wx:if="{{recipe.isOwner}}" size="mini" type="warn" bindtap="deleteRecipe">删除</button>
+    </view>
+  </view>
+  <view class="card">
+    <view class="section-title">食材</view>
+    <view wx:for="{{recipe.ingredients}}" wx:key="name">- {{item.name}}：{{item.amount}}</view>
+  </view>
+  <view class="card">
+    <view class="section-title">步骤</view>
+    <view wx:for="{{recipe.steps}}" wx:key="*this">{{index + 1}}. {{item}}</view>
+  </view>
+  <view class="card">
+    <view class="section-title">评论互动</view>
+    <view wx:for="{{recipe.comments}}" wx:key="id" class="comment-item">{{item.userName}}：{{item.content}}</view>
+    <input class="input" value="{{comment}}" bindinput="onInput" placeholder="输入评论" />
+    <button class="btn-primary" bindtap="submitComment">发布评论</button>
+  </view>
+</view>

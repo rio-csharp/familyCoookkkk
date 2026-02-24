@@ -1,0 +1,5 @@
+
+.member-row {
+  padding: 10rpx 0;
+  border-bottom: 1rpx solid #ffe7d1;
+}

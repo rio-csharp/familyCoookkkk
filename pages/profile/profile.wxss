@@ -1,0 +1,8 @@
+
+.user-row {
+  margin-bottom: 12rpx;
+}
+
+.active-text {
+  color: #d87829;
+}

@@ -1,0 +1,19 @@
+<view class="container">
+  <view class="card">
+    <view class="section-title">切换当前用户</view>
+    <view wx:for="{{users}}" wx:key="id" class="user-row">
+      <text>{{item.name}}（{{item.role}}）</text>
+      <text wx:if="{{item.id === currentUserId}}" class="active-text"> - 当前</text>
+      <button size="mini" class="btn-light" data-id="{{item.id}}" bindtap="switchUser" disabled="{{item.id === currentUserId}}">切换</button>
+    </view>
+  </view>
+  <view class="card">
+    <view class="section-title">新增用户</view>
+    <input class="input" value="{{newUser}}" bindinput="onInput" placeholder="用户名" />
+    <button class="btn-primary" bindtap="addUser">添加</button>
+  </view>
+  <view class="card">
+    <view class="section-title">账号</view>
+    <button class="btn-light" bindtap="logout">退出登录</button>
+  </view>
+</view>

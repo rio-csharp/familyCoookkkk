@@ -1,0 +1,19 @@
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1rpx solid #ffe7d1;
+  padding: 10rpx 0;
+}
+
+.timer-text {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #9a541f;
+  margin-bottom: 8rpx;
+}
+
+.recommend-text {
+  margin-top: 10rpx;
+  color: #d4762f;
+}
