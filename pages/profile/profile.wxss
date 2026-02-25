@@ -1,8 +1,32 @@
 
-.user-row {
-  margin-bottom: 12rpx;
+.me-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14rpx;
 }
 
-.active-text {
-  color: #d87829;
+.avatar {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 14rpx;
+}
+
+.nick {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.all-family-item {
+  border-bottom: 1rpx solid #ffe7d1;
+  padding: 12rpx 0;
+}
+
+.switch-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1rpx solid #ffe7d1;
+  padding: 10rpx 0;
 }

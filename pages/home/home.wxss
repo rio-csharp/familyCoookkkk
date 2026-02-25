@@ -16,3 +16,15 @@
   color: #7b441e;
   margin-bottom: 8rpx;
 }
+
+.fab-create {
+  position: fixed;
+  right: 28rpx;
+  bottom: 130rpx;
+  z-index: 99;
+  border-radius: 999rpx !important;
+  padding: 0 28rpx;
+  background: #ff8a3d !important;
+  color: #fff !important;
+  box-shadow: 0 10rpx 22rpx rgba(232, 118, 38, 0.3);
+}

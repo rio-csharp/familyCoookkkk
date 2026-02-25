@@ -2,6 +2,7 @@
   "pages": [
     "pages/login/login",
     "pages/home/home",
+    "pages/community/community",
     "pages/recipe-detail/recipe-detail",
     "pages/recipe-edit/recipe-edit",
     "pages/family/family",
@@ -13,6 +14,18 @@
     "navigationBarTitleText": "家庭食谱",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#fff7f1"
+  },
+  "tabBar": {
+    "color": "#8a6042",
+    "selectedColor": "#ff8a3d",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/home/home", "text": "首页" },
+      { "pagePath": "pages/community/community", "text": "社区" },
+      { "pagePath": "pages/tools/tools", "text": "功能" },
+      { "pagePath": "pages/profile/profile", "text": "我的" }
+    ]
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

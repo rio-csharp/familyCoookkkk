@@ -22,10 +22,10 @@ async function diagnoseConnection() {
     return { ok: false, report: ["1. 云函数 init 调用失败", "错误：" + (e.message || "unknown")] };
   }
   try {
-    await call("getHomeData", { keyword: "" });
-    report.push("2. 接口 getHomeData 调用成功");
+    await call("getSession");
+    report.push("2. 接口 getSession 调用成功");
   } catch (e) {
-    return { ok: false, report: [...report, "2. 接口 getHomeData 调用失败", "错误：" + (e.message || "unknown")] };
+    return { ok: false, report: [...report, "2. 接口 getSession 调用失败", "错误：" + (e.message || "unknown")] };
   }
   try {
     await wx.cloud.database().collection("platform").doc("main").get();
@@ -44,7 +44,8 @@ function watchState(onChange, onError) {
 }
 
 module.exports = {
-  login: (nickname) => call("login", { nickname: nickname || "" }),
+  loginByPhone: (phone, pin, nickname) => call("loginByPhone", { phone, pin, nickname: nickname || "" }),
+  registerByPhone: (nickname, phone, pin, inviteCode) => call("registerByPhone", { nickname, phone, pin, inviteCode }),
   logout: () => call("logout"),
   getSession: () => call("getSession"),
   testConnection: async () => {
@@ -55,6 +56,7 @@ module.exports = {
   diagnoseConnection,
   initData: () => call("init"),
   getHomeData: (keyword) => call("getHomeData", { keyword: keyword || "" }),
+  getCommunityData: (keyword) => call("getCommunityData", { keyword: keyword || "" }),
   getRecipeDetail: (id) => call("getRecipeDetail", { id }),
   saveRecipe: (payload) => call("saveRecipe", payload),
   deleteRecipe: (id) => call("deleteRecipe", { id }),
@@ -62,10 +64,14 @@ module.exports = {
   toggleFavorite: (id) => call("toggleFavorite", { id }),
   addComment: (recipeId, content) => call("addComment", { recipeId, content }),
   getFamily: () => call("getFamily"),
+  createFamily: (name) => call("createFamily", { name }),
+  joinFamilyByInvite: (code) => call("joinFamilyByInvite", { code }),
+  switchActiveFamily: (familyId) => call("switchActiveFamily", { familyId }),
+  updateProfile: (nickname, phone) => call("updateProfile", { nickname, phone }),
   updateFamilyName: (name) => call("updateFamilyName", { name }),
-  addUser: (name, role, joinFamily) => call("addUser", { name, role, joinFamily }),
-  switchUser: (id) => call("switchUser", { id }),
-  getUsers: () => call("getUsers"),
+  setFamilyAdmin: (userId, isAdmin, familyId) => call("setFamilyAdmin", { userId, isAdmin, familyId }),
+  removeFamilyMember: (userId, familyId) => call("removeFamilyMember", { userId, familyId }),
+  dissolveFamily: (familyId) => call("dissolveFamily", { familyId }),
   getTools: () => call("getTools"),
   addShoppingItem: (text) => call("addShoppingItem", { text }),
   removeShoppingItem: (index) => call("removeShoppingItem", { index }),

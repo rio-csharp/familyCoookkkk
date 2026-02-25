@@ -4,8 +4,13 @@
     <input class="input" data-f="title" value="{{title}}" bindinput="onInput" placeholder="标题" />
     <textarea class="textarea" data-f="description" value="{{description}}" bindinput="onInput" placeholder="简介"></textarea>
     <input class="input" data-f="tags" value="{{tags}}" bindinput="onInput" placeholder="标签，逗号分隔" />
+    <view class="subtle">发布范围</view>
+    <radio-group class="btn-row" bindchange="onVisibilityChange">
+      <label><radio value="family" checked="{{visibility === 'family'}}" />仅家庭可见</label>
+      <label><radio value="community" checked="{{visibility === 'community'}}" />公开到社区</label>
+    </radio-group>
     <textarea class="textarea" data-f="ingredients" value="{{ingredients}}" bindinput="onInput" placeholder="食材，每行 名称|用量"></textarea>
     <textarea class="textarea" data-f="steps" value="{{steps}}" bindinput="onInput" placeholder="步骤，每行一步"></textarea>
-    <button class="btn-primary" bindtap="save">保存</button>
+    <button class="btn-primary" bindtap="save" disabled="{{saving}}">保存</button>
   </view>
 </view>

@@ -1,14 +1,47 @@
-<view class="container" wx:if="{{family}}">
+<view class="container">
+  <view wx:if="{{loading}}" class="card state-card">加载中...</view>
+  <view wx:if="{{!loading && errorText}}" class="card state-card">
+    <view class="error-text">{{errorText}}</view>
+    <button size="mini" class="btn-light" bindtap="reload">重试</button>
+  </view>
+  <view wx:if="{{!loading && !errorText && !family && !isSuperAdmin}}" class="card">
+    <view class="section-title">加入或创建家庭</view>
+    <input class="input" data-f="inviteCode" value="{{inviteCode}}" bindinput="onInput" placeholder="输入邀请码加入家庭" />
+    <button size="mini" class="btn-light" bindtap="joinByInvite" disabled="{{saving}}">通过邀请码加入</button>
+    <input class="input" data-f="createFamilyName" value="{{createFamilyName}}" bindinput="onInput" placeholder="新家庭名称" />
+    <button class="btn-primary" bindtap="createFamily" disabled="{{saving}}">创建家庭</button>
+  </view>
+  <view wx:if="{{!loading && !errorText && family}}">
   <view class="card">
     <view class="section-title">家庭信息</view>
     <input class="input" data-f="name" value="{{name}}" bindinput="onInput" />
-    <button size="mini" class="btn-light" bindtap="saveName">保存家庭名称</button>
-    <view class="meta">邀请码：{{family.inviteCode}}</view>
+    <button size="mini" class="btn-light" bindtap="saveName" disabled="{{saving || !canManage}}">保存家庭名称</button>
+    <view class="btn-row">
+      <view class="meta">邀请码：{{family.inviteCode}}</view>
+      <button size="mini" class="btn-light" bindtap="copyInvite">复制邀请码</button>
+    </view>
+    <button wx:if="{{canDissolve}}" size="mini" type="warn" bindtap="dissolveFamily" disabled="{{saving}}">解散家庭</button>
   </view>
   <view class="card">
     <view class="section-title">成员管理</view>
-    <view wx:for="{{family.members}}" wx:key="id" class="member-row">{{item.name}}（{{item.role}}）</view>
-    <input class="input" data-f="memberName" value="{{memberName}}" bindinput="onInput" placeholder="新增成员姓名" />
-    <button class="btn-primary" bindtap="addMember">添加成员</button>
+    <view wx:for="{{family.members}}" wx:key="id" class="member-row">
+      <view>{{item.name}}（{{item.familyRole}}）</view>
+      <view class="btn-row" wx:if="{{canManage && item.familyRole !== 'owner'}}">
+        <button size="mini" class="btn-light" data-id="{{item.id}}" data-admin="{{item.familyRole === 'admin'}}" bindtap="toggleAdmin" disabled="{{saving}}">
+          {{item.familyRole === "admin" ? "取消管理员" : "设为管理员"}}
+        </button>
+        <button size="mini" type="warn" data-id="{{item.id}}" bindtap="removeMember" disabled="{{saving}}">移除</button>
+      </view>
+    </view>
+    <input class="input" data-f="inviteCode" value="{{inviteCode}}" bindinput="onInput" placeholder="输入邀请码加入家庭" />
+    <button size="mini" class="btn-light" bindtap="joinByInvite" disabled="{{saving}}">通过邀请码加入</button>
+  </view>
+  </view>
+  <view wx:if="{{!loading && !errorText && isSuperAdmin}}" class="card">
+    <view class="section-title">全部家庭（超级管理员）</view>
+    <view wx:for="{{families}}" wx:key="id" class="member-row">
+      <view>{{item.name}}（{{item.members.length}}人）</view>
+      <view class="subtle" wx:for="{{item.members}}" wx:key="id">{{item.name}} · {{item.familyRole}}</view>
+    </view>
   </view>
 </view>

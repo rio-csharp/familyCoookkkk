@@ -1,24 +1,44 @@
 const api = require("../../utils/api");
 
 Page({
-  data: { shoppingList: [], newItem: "", timerMin: "20", remain: 0, timerText: "00:00", randomText: "" },
+  data: { shoppingList: [], newItem: "", timerMin: "20", remain: 0, timerText: "00:00", randomText: "", loading: false, errorText: "", busy: false },
   timer: null,
   async onShow() { await this.reload(); },
   onUnload() { this.stopTimer(); },
   async reload() {
-    const tools = await api.getTools();
-    this.setData({ shoppingList: tools.shoppingList || [] });
+    this.setData({ loading: true, errorText: "" });
+    try {
+      const tools = await api.getTools();
+      this.setData({ shoppingList: tools.shoppingList || [], errorText: "" });
+    } catch (e) {
+      this.setData({ errorText: e.message || "加载失败" });
+    } finally {
+      this.setData({ loading: false });
+    }
   },
   onInput(e) { this.setData({ [e.currentTarget.dataset.f]: e.detail.value }); },
-  addItem() {
+  async addItem() {
+    if (this.data.busy) return;
     const v = this.data.newItem.trim();
     if (!v) return;
-    api.addShoppingItem(v).then(() => this.reload());
-    this.setData({ newItem: "" });
+    this.setData({ busy: true });
+    try {
+      await api.addShoppingItem(v);
+      this.setData({ newItem: "" });
+      await this.reload();
+    } finally {
+      this.setData({ busy: false });
+    }
   },
   async removeItem(e) {
-    await api.removeShoppingItem(Number(e.currentTarget.dataset.i));
-    await this.reload();
+    if (this.data.busy) return;
+    this.setData({ busy: true });
+    try {
+      await api.removeShoppingItem(Number(e.currentTarget.dataset.i));
+      await this.reload();
+    } finally {
+      this.setData({ busy: false });
+    }
   },
   startTimer() {
     const min = Number(this.data.timerMin);

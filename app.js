@@ -1,6 +1,6 @@
 App({
   globalData: {
-    cloudEnvId: "cloud1-0g6g08sfb912fa85"
+    cloudEnvId: ""
   },
   onLaunch() {
     if (!wx.cloud) {
@@ -8,7 +8,7 @@ App({
       return;
     }
     wx.cloud.init({
-      env: this.globalData.cloudEnvId,
+      env: this.globalData.cloudEnvId || wx.cloud.DYNAMIC_CURRENT_ENV,
       traceUser: true
     });
     wx.cloud.callFunction({

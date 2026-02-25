@@ -1,8 +1,15 @@
 <view class="container">
   <view class="card login-card">
     <view class="title">橙味食谱</view>
-    <view class="subtle">请先登录后使用家庭食谱功能</view>
-    <input class="input" value="{{nickname}}" bindinput="onInput" placeholder="输入昵称（可选）" />
-    <button class="btn-primary" bindtap="onLogin">微信登录</button>
+    <view class="subtle">请使用手机号+4位密码进行注册/登录</view>
+    <input class="input" data-f="nickname" value="{{nickname}}" bindinput="onInput" placeholder="昵称（可选）" />
+    <input class="input" data-f="phone" value="{{phone}}" bindinput="onInput" placeholder="手机号（11位）" type="number" />
+    <input class="input" data-f="pin" value="{{pin}}" bindinput="onInput" placeholder="4位数字密码" type="number" maxlength="4" password="true" />
+    <input class="input" data-f="inviteCode" value="{{inviteCode}}" bindinput="onInput" placeholder="家庭邀请码（注册时可选）" />
+    <view class="btn-row">
+      <button class="btn-primary" bindtap="onPhoneLogin" disabled="{{loading}}">手机号登录</button>
+      <button class="btn-light" bindtap="onRegister" disabled="{{loading}}">手机号注册</button>
+    </view>
+    <view class="subtle">默认超级管理员手机号：15736521410</view>
   </view>
 </view>

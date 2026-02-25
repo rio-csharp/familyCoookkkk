@@ -1,7 +1,9 @@
 <view class="container">
   <view class="card hero">
+    <view class="title">社区食谱</view>
+    <view class="subtle">这里展示所有家庭公开发布的食谱</view>
     <view class="btn-row">
-    <input class="input" value="{{keyword}}" bindinput="onInput" placeholder="搜索家庭食谱（输入标题/描述/标签）" confirm-type="search" bindconfirm="onSearch" />
+    <input class="input" value="{{keyword}}" bindinput="onInput" placeholder="搜索标题/描述/标签" confirm-type="search" bindconfirm="onSearch" />
       <button size="mini" class="btn-primary" bindtap="onSearch" disabled="{{loading}}">搜索</button>
       <button size="mini" class="btn-light" bindtap="clearKeyword" disabled="{{loading}}">清空</button>
     </view>
@@ -11,13 +13,12 @@
     <view class="error-text">{{errorText}}</view>
     <button size="mini" class="btn-light" bindtap="onSearch">重试</button>
   </view>
-  <view class="section-title">食谱列表</view>
+  <view class="section-title">公开食谱</view>
   <view wx:for="{{recipes}}" wx:key="id" class="card recipe-card" data-id="{{item.id}}" bindtap="goDetail">
     <view class="recipe-title">{{item.title}}</view>
     <view class="subtle">{{item.description}}</view>
     <view><text class="tag" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text></view>
     <view class="meta">作者：{{item.authorName}} · 点赞 {{item.likeCount}} · 收藏 {{item.favoriteCount}}</view>
   </view>
-  <view wx:if="{{!loading && !errorText && !recipes.length}}" class="card state-card">暂无数据，点击右下角“新建食谱”开始。</view>
-  <button class="fab-create" bindtap="goCreate">新建食谱</button>
+  <view wx:if="{{!loading && !errorText && !recipes.length}}" class="card state-card">暂无公开食谱</view>
 </view>

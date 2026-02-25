@@ -3,18 +3,26 @@ const api = require("../../utils/api");
 function ingToText(list) { return list.map(x => x.name + "|" + x.amount).join("\n"); }
 
 Page({
-  data: { id: "", title: "", description: "", tags: "", ingredients: "", steps: "" },
+  data: { id: "", title: "", description: "", tags: "", ingredients: "", steps: "", visibility: "family", saving: false },
   onLoad(opt) {
     const id = opt.id || "";
     this.setData({ id });
     if (!id) return;
     api.getRecipeDetail(id).then((r) => {
       if (!r) return;
-      this.setData({ title: r.title, description: r.description, tags: r.tags.join(","), ingredients: ingToText(r.ingredients), steps: r.steps.join("\n") });
+      this.setData({
+        title: r.title,
+        description: r.description,
+        tags: r.tags.join(","),
+        ingredients: ingToText(r.ingredients),
+        steps: r.steps.join("\n"),
+        visibility: r.visibility || "family"
+      });
     });
   },
   onInput(e) { this.setData({ [e.currentTarget.dataset.f]: e.detail.value }); },
   async save() {
+    if (this.data.saving) return;
     const title = this.data.title.trim();
     const steps = this.data.steps.split("\n").map(x => x.trim()).filter(Boolean);
     if (!title || !steps.length) return wx.showToast({ title: "标题和步骤必填", icon: "none" });
@@ -27,9 +35,19 @@ Page({
         const p = l.split("|");
         return { name: (p[0] || "").trim(), amount: (p[1] || "适量").trim() };
       }).filter(x => x.name),
-      steps
+      steps,
+      visibility: this.data.visibility
     };
-    await api.saveRecipe(payload);
-    wx.navigateBack();
+    this.setData({ saving: true });
+    try {
+      await api.saveRecipe(payload);
+      wx.showToast({ title: "保存成功", icon: "success" });
+      wx.navigateBack();
+    } finally {
+      this.setData({ saving: false });
+    }
+  },
+  onVisibilityChange(e) {
+    this.setData({ visibility: e.detail.value });
   }
 });
