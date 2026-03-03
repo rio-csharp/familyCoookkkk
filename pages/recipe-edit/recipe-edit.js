@@ -47,7 +47,6 @@ Page({
       this.setData({ saving: false });
     }
   },
-  onVisibilityChange(e) {
-    this.setData({ visibility: e.detail.value });
-  }
+  onSelectFamily() { this.setData({ visibility: "family" }); },
+  onSelectCommunity() { this.setData({ visibility: "community" }); }
 });

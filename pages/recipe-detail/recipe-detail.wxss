@@ -1,3 +1,4 @@
+/* 食谱详情页 */
 .action-row {
   margin-top: 10rpx;
 }
@@ -6,3 +7,25 @@
   padding: 10rpx 0;
   border-bottom: 1rpx solid #ffe7d1;
 }
+
+.step-item {
+  margin-bottom: 16rpx;
+  position: relative;
+}
+
+.step-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8rpx;
+  width: 8rpx;
+  height: 8rpx;
+  background: var(--color-orange-400);
+  border-radius: 50%;
+}
+
+.step-text {
+  padding-left: 16rpx;
+}
+
+

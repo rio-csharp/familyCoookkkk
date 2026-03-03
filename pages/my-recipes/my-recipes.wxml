@@ -1,0 +1,63 @@
+<view class="container">
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading-container">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 错误状态 -->
+  <view wx:elif="{{errorText}}" class="error-container">
+    <text class="error-icon">⚠️</text>
+    <text class="error-text">{{errorText}}</text>
+    <button class="btn-orange" bindtap="loadRecipes">重试</button>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:elif="{{!recipes.length}}" class="empty-container">
+    <text class="empty-icon">📖</text>
+    <text class="empty-text">还没有发布菜谱</text>
+    <text class="empty-hint">去创建你的第一个菜谱吧！</text>
+    <button class="btn-orange btn-large" bindtap="goCreateRecipe">创建菜谱</button>
+  </view>
+
+  <!-- 菜谱列表 -->
+  <view wx:else class="recipe-list">
+    <view class="section-header">
+      <text class="section-title">我的菜谱</text>
+      <text class="section-count">共 {{recipes.length}} 篇</text>
+    </view>
+
+    <view class="recipe-item" wx:for="{{recipes}}" wx:key="id" bindtap="viewRecipe" data-id="{{item.id}}">
+      <view class="recipe-cover">
+        <image wx:if="{{item.coverUrl}}" class="cover-image" src="{{item.coverUrl}}" mode="aspectFill"></image>
+        <view wx:else class="cover-placeholder">{{item.title.charAt(0)}}</view>
+      </view>
+
+      <view class="recipe-info">
+        <text class="recipe-title">{{item.title}}</text>
+        <text class="recipe-desc">{{item.description || ''}}</text>
+        <view class="recipe-meta">
+          <text class="meta-item">{{item.createTime}}</text>
+          <text class="meta-item">{{item.viewCount || 0}} 次浏览</text>
+        </view>
+      </view>
+
+      <view class="recipe-actions">
+        <button class="btn-edit" catchtap="editRecipe" data-id="{{item.id}}" hover-class="btn-hover">
+          <text>编辑</text>
+        </button>
+        <button class="btn-delete" catchtap="deleteRecipe" data-id="{{item.id}}" hover-class="btn-hover">
+          <text>删除</text>
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部创建按钮 -->
+  <view wx:if="{{recipes.length > 0}}" class="fab-container">
+    <button class="fab-btn" bindtap="goCreateRecipe">
+      <text class="fab-icon">+</text>
+      <text class="fab-text">创建菜谱</text>
+    </button>
+  </view>
+</view>

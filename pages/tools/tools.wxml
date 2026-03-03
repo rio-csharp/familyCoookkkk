@@ -1,32 +1,88 @@
 <view class="container">
-  <view wx:if="{{loading}}" class="card state-card">加载中...</view>
+  <view wx:if="{{loading}}" class="card state-card">
+    <view class="flex justify-center items-center py-8">
+      <text class="text-brown-100">加载中...</text>
+    </view>
+  </view>
   <view wx:if="{{!loading && errorText}}" class="card state-card">
-    <view class="error-text">{{errorText}}</view>
-    <button size="mini" class="btn-light" bindtap="reload">重试</button>
+    <view class="error-text text-center">{{errorText}}</view>
+    <view class="flex justify-center mt-4">
+      <button size="mini" class="btn-light" bindtap="reload">重试</button>
+    </view>
   </view>
   <view wx:if="{{!loading && !errorText}}">
-  <view class="card">
-    <view class="section-title">采购清单</view>
-    <view wx:for="{{shoppingList}}" wx:key="index" class="item-row">
-      <text>{{index + 1}}. {{item}}</text>
-      <button size="mini" class="btn-light" data-i="{{index}}" bindtap="removeItem" disabled="{{busy}}">删除</button>
+    <!-- 采购清单 -->
+    <view class="card tool-card">
+      <view class="tool-header">
+        <view class="tool-icon">🛒</view>
+        <view class="tool-title">采购清单</view>
+        <view class="tool-count">{{shoppingList.length}}项</view>
+      </view>
+      <view wx:if="{{shoppingList.length > 0}}" class="shopping-list">
+        <view wx:for="{{shoppingList}}" wx:key="index" class="shopping-item">
+          <text class="item-index">{{index + 1}}</text>
+          <text class="item-text">{{item}}</text>
+          <button size="mini" class="btn-light delete-btn" data-i="{{index}}" bindtap="removeItem" disabled="{{busy}}">删除</button>
+        </view>
+      </view>
+      <view wx:else class="empty-state">暂无清单项，快添加吧~</view>
+      <view class="add-area">
+        <input class="input" data-f="newItem" value="{{newItem}}" bindinput="onInput" placeholder="输入要购买的食材..." />
+        <button class="btn-primary add-btn" bindtap="addItem" disabled="{{busy}}">添加</button>
+      </view>
     </view>
-    <input class="input" data-f="newItem" value="{{newItem}}" bindinput="onInput" placeholder="新增清单项" />
-    <button class="btn-primary" bindtap="addItem" disabled="{{busy}}">添加清单项</button>
-  </view>
-  <view class="card">
-    <view class="section-title">烹饪计时器</view>
-    <input class="input" data-f="timerMin" value="{{timerMin}}" bindinput="onInput" placeholder="分钟" type="number" />
-    <view class="timer-text">剩余：{{timerText}}</view>
-    <view class="btn-row">
-      <button size="mini" class="btn-light" bindtap="startTimer">开始</button>
-      <button size="mini" class="btn-light" bindtap="stopTimer">停止</button>
+
+    <!-- 烹饪计时器 -->
+    <view class="card tool-card">
+      <view class="tool-header">
+        <view class="tool-icon">⏱️</view>
+        <view class="tool-title">烹饪计时器</view>
+      </view>
+      <view class="timer-display">
+        <text class="timer-time">{{timerText}}</text>
+        <text class="timer-label">剩余时间</text>
+      </view>
+      <view class="timer-input-wrapper">
+        <input class="input" data-f="timerValue" value="{{timerValue}}" bindinput="onInput" placeholder="时间" type="number" />
+        <view class="timer-unit">
+          <view class="unit-option {{timerUnit === 'min' ? 'active' : ''}}" bindtap="selectUnit" data-unit="min">分钟</view>
+          <view class="unit-option {{timerUnit === 'hour' ? 'active' : ''}}" bindtap="selectUnit" data-unit="hour">小时</view>
+        </view>
+      </view>
+      <view class="timer-buttons">
+        <button size="default" class="btn-primary timer-btn" bindtap="startTimer">开始计时</button>
+        <button size="default" class="btn-light timer-btn" bindtap="stopTimer">停止</button>
+      </view>
     </view>
-  </view>
-  <view class="card">
-    <view class="section-title">今日吃什么</view>
-    <button class="btn-primary" bindtap="randomRecipe">随机推荐一道菜</button>
-    <view class="recommend-text">{{randomText}}</view>
-  </view>
+
+    <!-- 今日吃什么 -->
+    <view class="card tool-card">
+      <view class="tool-header">
+        <view class="tool-icon">🍳</view>
+        <view class="tool-title">今日吃什么</view>
+      </view>
+      <button class="btn-primary random-btn" bindtap="randomRecipe">随机推荐一道菜</button>
+      <view class="random-result">{{randomText}}</view>
+    </view>
+
+    <!-- 开发工具 -->
+    <view class="card tool-card dev-card">
+      <view class="tool-header">
+        <view class="tool-icon">🔧</view>
+        <view class="tool-title">开发工具</view>
+      </view>
+      <view class="dev-tools">
+        <button class="btn-light dev-btn" bindtap="testCloudConnection" disabled="{{busy}}">
+          <view class="dev-btn-icon">☁️</view>
+          <view class="dev-btn-text">测试云开发连接</view>
+        </button>
+        <button class="btn-light dev-btn" bindtap="addSampleRecipes" disabled="{{busy}}">
+          <view class="dev-btn-icon">📚</view>
+          <view class="dev-btn-text">添加示例菜谱</view>
+        </button>
+      </view>
+      <text class="diagnostic-text">{{cloudTestResult || recipeResult}}</text>
+    </view>
   </view>
 </view>
+

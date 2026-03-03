@@ -1,5 +1,647 @@
 
-.member-row {
-  padding: 10rpx 0;
-  border-bottom: 1rpx solid #ffe7d1;
+/* 家庭页面 - 橙色温暖主题 */
+page {
+  background: linear-gradient(180deg, #FFF8F3 0%, #FFFBF8 100%);
+  min-height: 100vh;
 }
+
+.container {
+  padding: 30rpx;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* 顶部提示 */
+.toast {
+  position: fixed;
+  top: -100rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 20rpx 40rpx;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+  z-index: 9999;
+  transition: top 0.3s ease;
+}
+
+.toast.show {
+  top: 40rpx;
+}
+
+/* 加载状态 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 200rpx 0;
+}
+
+.loading-spinner {
+  width: 80rpx;
+  height: 80rpx;
+  border: 4rpx solid #FFE4CC;
+  border-top-color: #F59E0B;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  margin-top: 30rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+/* 错误状态 */
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 200rpx 30rpx;
+}
+
+.error-icon {
+  font-size: 100rpx;
+  margin-bottom: 30rpx;
+}
+
+.error-text {
+  color: #666;
+  font-size: 28rpx;
+  margin-bottom: 40rpx;
+  text-align: center;
+}
+
+/* 卡片基础样式 */
+.card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(245, 158, 11, 0.08);
+  border: 1rpx solid #FFF0E6;
+  transition: all 0.3s ease;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #FFE8D6;
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+/* 统计区域 */
+.stats-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 20rpx;
+  margin-bottom: 32rpx;
+}
+
+.stat-card {
+  flex: 1;
+  background: linear-gradient(135deg, #FFF0E6 0%, #FFE8D6 100%);
+  border-radius: 20rpx;
+  padding: 32rpx 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4rpx 16rpx rgba(245, 158, 11, 0.12);
+}
+
+.stat-value {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #F59E0B;
+  margin-bottom: 8rpx;
+  word-break: break-all;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 加入/创建家庭 */
+.join-container {
+  padding-top: 60rpx;
+}
+
+.join-header {
+  text-align: center;
+  margin-bottom: 48rpx;
+}
+
+.join-title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+
+.join-subtitle {
+  display: block;
+  font-size: 26rpx;
+  color: #999;
+}
+
+.join-tabs {
+  display: flex;
+  background: #F5F5F5;
+  border-radius: 16rpx;
+  padding: 6rpx;
+  margin-bottom: 40rpx;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx;
+  font-size: 28rpx;
+  color: #666;
+  border-radius: 12rpx;
+  transition: all 0.3s ease;
+}
+
+.tab.active {
+  background: #fff;
+  color: #F59E0B;
+  font-weight: 600;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+}
+
+.join-content {
+  padding: 0 20rpx;
+}
+
+.join-other-content {
+  padding: 0 20rpx;
+}
+
+/* 输入框样式 */
+.input-wrapper {
+  margin-bottom: 32rpx;
+}
+
+.input-underline {
+  width: 100%;
+  padding: 24rpx 0;
+  font-size: 32rpx;
+  color: #333;
+  border: none;
+  border-bottom: 2rpx solid #E8E8E8;
+  background: transparent;
+  transition: border-color 0.3s ease;
+}
+
+.input-underline:focus {
+  border-color: #F59E0B;
+}
+
+/* 按钮样式 */
+.btn-orange {
+  width: 100%;
+  padding: 28rpx;
+  background: linear-gradient(135deg, #F59E0B 0%, #F97316 100%);
+  color: #fff;
+  border: none;
+  border-radius: 16rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  box-shadow: 0 4rpx 16rpx rgba(245, 158, 11, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-orange::after {
+  border: none;
+}
+
+.btn-orange:active {
+  transform: scale(0.96);
+  opacity: 0.9;
+}
+
+.btn-orange:disabled {
+  background: #D1D5DB;
+  box-shadow: none;
+}
+
+.btn-large {
+  padding: 32rpx;
+  font-size: 34rpx;
+}
+
+/* 信息内容 */
+.info-content {
+  padding: 8rpx 0;
+}
+
+.info-row {
+  margin-bottom: 32rpx;
+}
+
+.info-label {
+  display: block;
+  font-size: 26rpx;
+  color: #999;
+  margin-bottom: 12rpx;
+}
+
+.info-value {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  font-size: 32rpx;
+  color: #333;
+}
+
+.edit-hint {
+  font-size: 24rpx;
+  color: #F59E0B;
+}
+
+.edit-input-row {
+  display: flex;
+  gap: 16rpx;
+}
+
+.edit-input {
+  flex: 1;
+  min-width: 200rpx;
+  max-width: 500rpx;
+  padding: 20rpx;
+  background: #F9F9F9;
+  border: 2rpx solid #E8E8E8;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.edit-input:focus {
+  border-color: #F59E0B;
+  background: #FFF8F3;
+}
+
+.btn-save {
+  padding: 20rpx 32rpx;
+  background: #F59E0B;
+  color: #fff;
+  border: none;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-save::after {
+  border: none;
+}
+
+.btn-save:active {
+  transform: scale(0.96);
+  opacity: 0.9;
+}
+
+/* 邀请码 */
+.invite-code-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  background: linear-gradient(135deg, #FFF0E6 0%, #FFE8D6 100%);
+  border-radius: 12rpx;
+  padding: 24rpx 32rpx;
+}
+
+.invite-code {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #F59E0B;
+  letter-spacing: 4rpx;
+  font-family: 'Courier New', monospace;
+}
+
+.btn-copy {
+  padding: 16rpx 28rpx;
+  background: #fff;
+  color: #F59E0B;
+  border: 2rpx solid #F59E0B;
+  border-radius: 10rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-copy::after {
+  border: none;
+}
+
+.btn-copy:active,
+.btn-copy-hover {
+  background: #F59E0B;
+  color: #fff;
+  transform: scale(0.96);
+}
+
+/* 危险区域 */
+.danger-zone {
+  margin-top: 48rpx;
+  padding-top: 32rpx;
+  border-top: 1rpx solid #FFE8D6;
+}
+
+.btn-danger {
+  width: 100%;
+  padding: 24rpx;
+  background: #fff;
+  color: #EF4444;
+  border: 2rpx solid #EF4444;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-danger::after {
+  border: none;
+}
+
+.btn-danger:active,
+.btn-danger-hover {
+  background: #EF4444;
+  color: #fff;
+  transform: scale(0.96);
+}
+
+/* 成员列表 */
+.member-count {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.member-list {
+  padding: 8rpx 0;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #F5F5F5;
+}
+
+.member-item:last-child {
+  border-bottom: none;
+}
+
+.member-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFE8D6 0%, #FFD4A8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #F59E0B;
+  margin-right: 20rpx;
+}
+
+.member-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.member-name {
+  font-size: 30rpx;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.member-role {
+  font-size: 22rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  display: inline-block;
+  width: fit-content;
+}
+
+.member-role.owner {
+  background: linear-gradient(135deg, #F59E0B 0%, #F97316 100%);
+  color: #fff;
+}
+
+.member-role.admin {
+  background: #FFF0E6;
+  color: #F59E0B;
+}
+
+.member-role.member {
+  background: #F5F5F5;
+  color: #999;
+}
+
+.member-actions {
+  display: flex;
+  gap: 12rpx;
+}
+
+.btn-action {
+  padding: 12rpx 20rpx;
+  background: #F9F9F9;
+  color: #666;
+  border: none;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  transition: all 0.2s ease;
+}
+
+.btn-action::after {
+  border: none;
+}
+
+.btn-action:active,
+.btn-action-hover {
+  background: #F59E0B;
+  color: #fff;
+  transform: scale(0.94);
+}
+
+.btn-danger-sm {
+  color: #EF4444;
+}
+
+.btn-danger-sm:active,
+.btn-danger-sm.btn-action-hover {
+  background: #EF4444;
+  color: #fff;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80rpx 0;
+}
+
+/* 我的家庭列表 */
+.my-family-list {
+  padding: 8rpx 0;
+}
+
+.my-family-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 20rpx;
+  background: #F9F9F9;
+  border-radius: 12rpx;
+  margin-bottom: 12rpx;
+  transition: all 0.3s ease;
+}
+
+.my-family-item:last-child {
+  margin-bottom: 0;
+}
+
+.my-family-item.active {
+  background: linear-gradient(135deg, #FFF0E6 0%, #FFE8D6 100%);
+  border: 2rpx solid #F59E0B;
+}
+
+.my-family-item:active {
+  transform: scale(0.98);
+}
+
+.family-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFE8D6 0%, #FFD4A8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  margin-right: 20rpx;
+}
+
+.family-main-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.family-name-text {
+  font-size: 30rpx;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 6rpx;
+}
+
+.family-role-text {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.family-status {
+  display: flex;
+  align-items: center;
+}
+
+.active-badge {
+  padding: 6rpx 16rpx;
+  background: #F59E0B;
+  color: #fff;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.switch-hint {
+  font-size: 24rpx;
+  color: #F59E0B;
+  font-weight: 600;
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 20rpx;
+  opacity: 0.3;
+}
+
+.empty-text {
+  font-size: 26rpx;
+  color: #999;
+}
+
+/* 家庭列表 */
+.family-list {
+  padding: 8rpx 0;
+}
+
+.family-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #F5F5F5;
+}
+
+.family-item:last-child {
+  border-bottom: none;
+}
+
+.family-name {
+  font-size: 30rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.family-info {
+  font-size: 26rpx;
+  color: #999;
+}
+
+/* 图标按钮 */
+.btn-icon {
+  padding: 8rpx 16rpx;
+  background: transparent;
+  color: #666;
+  border: none;
+  font-size: 32rpx;
+  line-height: 1;
+  transition: all 0.2s ease;
+}
+
+.btn-icon::after {
+  border: none;
+}
+
+.btn-icon:active {
+  transform: scale(0.9);
+  opacity: 0.7;
+}
+
+
+

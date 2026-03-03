@@ -1,6 +1,6 @@
 App({
   globalData: {
-    cloudEnvId: ""
+    cloudEnvId: "cloud1-0g6g08sfb912fa85"
   },
   onLaunch() {
     if (!wx.cloud) {

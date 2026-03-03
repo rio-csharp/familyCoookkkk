@@ -1,47 +1,201 @@
-<view class="container">
-  <view wx:if="{{loading}}" class="card state-card">加载中...</view>
-  <view wx:if="{{!loading && errorText}}" class="card state-card">
-    <view class="error-text">{{errorText}}</view>
-    <button size="mini" class="btn-light" bindtap="reload">重试</button>
+<!-- 顶部提示 -->
+<view class="toast {{toastVisible ? 'show' : ''}}">{{toastMessage}}</view>
+
+<view class="container" bindtap="handlePageTap">
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading-container">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
   </view>
-  <view wx:if="{{!loading && !errorText && !family && !isSuperAdmin}}" class="card">
-    <view class="section-title">加入或创建家庭</view>
-    <input class="input" data-f="inviteCode" value="{{inviteCode}}" bindinput="onInput" placeholder="输入邀请码加入家庭" />
-    <button size="mini" class="btn-light" bindtap="joinByInvite" disabled="{{saving}}">通过邀请码加入</button>
-    <input class="input" data-f="createFamilyName" value="{{createFamilyName}}" bindinput="onInput" placeholder="新家庭名称" />
-    <button class="btn-primary" bindtap="createFamily" disabled="{{saving}}">创建家庭</button>
+
+  <!-- 错误状态 -->
+  <view wx:elif="{{errorText}}" class="error-container">
+    <text class="error-icon">⚠️</text>
+    <text class="error-text">{{errorText}}</text>
+    <button class="btn-orange" bindtap="reload">重试</button>
   </view>
-  <view wx:if="{{!loading && !errorText && family}}">
-  <view class="card">
-    <view class="section-title">家庭信息</view>
-    <input class="input" data-f="name" value="{{name}}" bindinput="onInput" />
-    <button size="mini" class="btn-light" bindtap="saveName" disabled="{{saving || !canManage}}">保存家庭名称</button>
-    <view class="btn-row">
-      <view class="meta">邀请码：{{family.inviteCode}}</view>
-      <button size="mini" class="btn-light" bindtap="copyInvite">复制邀请码</button>
+
+  <!-- 未加入家庭 -->
+  <view wx:elif="{{!family && !isSuperAdmin}}" class="join-container">
+    <view class="join-header">
+      <text class="join-title">加入或创建家庭</text>
+      <text class="join-subtitle">开始您的家庭烹饪之旅</text>
     </view>
-    <button wx:if="{{canDissolve}}" size="mini" type="warn" bindtap="dissolveFamily" disabled="{{saving}}">解散家庭</button>
-  </view>
-  <view class="card">
-    <view class="section-title">成员管理</view>
-    <view wx:for="{{family.members}}" wx:key="id" class="member-row">
-      <view>{{item.name}}（{{item.familyRole}}）</view>
-      <view class="btn-row" wx:if="{{canManage && item.familyRole !== 'owner'}}">
-        <button size="mini" class="btn-light" data-id="{{item.id}}" data-admin="{{item.familyRole === 'admin'}}" bindtap="toggleAdmin" disabled="{{saving}}">
-          {{item.familyRole === "admin" ? "取消管理员" : "设为管理员"}}
-        </button>
-        <button size="mini" type="warn" data-id="{{item.id}}" bindtap="removeMember" disabled="{{saving}}">移除</button>
+
+    <view class="join-tabs">
+      <view class="tab {{activeTab === 'join' ? 'active' : ''}}" data-tab="join" bindtap="switchTab">
+        加入家庭
+      </view>
+      <view class="tab {{activeTab === 'create' ? 'active' : ''}}" data-tab="create" bindtap="switchTab">
+        创建家庭
       </view>
     </view>
-    <input class="input" data-f="inviteCode" value="{{inviteCode}}" bindinput="onInput" placeholder="输入邀请码加入家庭" />
-    <button size="mini" class="btn-light" bindtap="joinByInvite" disabled="{{saving}}">通过邀请码加入</button>
+
+    <view wx:if="{{activeTab === 'join'}}" class="join-content">
+      <view class="input-wrapper">
+        <input class="input-underline" data-f="inviteCode" value="{{inviteCode}}" bindinput="onInput" placeholder="输入邀请码" bindconfirm="joinByInvite" />
+      </view>
+      <button class="btn-orange btn-large" bindtap="joinByInvite" disabled="{{saving}}">
+        {{saving ? '加入中...' : '加入家庭'}}
+      </button>
+    </view>
+
+    <view wx:else class="join-content">
+      <view class="input-wrapper">
+        <input class="input-underline" data-f="createFamilyName" value="{{createFamilyName}}" bindinput="onInput" placeholder="新家庭名称" bindconfirm="createFamily" />
+      </view>
+      <button class="btn-orange btn-large" bindtap="createFamily" disabled="{{saving}}">
+        {{saving ? '创建中...' : '创建家庭'}}
+      </button>
+    </view>
   </view>
+
+  <!-- 家庭信息 -->
+  <view wx:else class="family-container">
+
+    <!-- 家庭信息卡片 -->
+    <view class="card">
+      <view class="card-header">
+        <text class="card-title">🏠 家庭信息</text>
+      </view>
+
+      <view class="info-content">
+        <view class="info-row">
+          <text class="info-label">家庭名称</text>
+          <view wx:if="{{!isEditing}}" class="info-value" catchtap="startEditName">
+            <text>{{name}}</text>
+            <text class="edit-hint">点击编辑</text>
+          </view>
+          <view wx:else class="edit-input-row" catchtap="stopPropagation">
+            <input class="edit-input" value="{{name}}" bindinput="onNameInput" bindconfirm="saveName" focus="{{isEditing}}" catchtap="stopPropagation" />
+            <button class="btn-save " bindtap="saveName" disabled="{{saving}}">保存</button>
+            <button class="btn-cancel" bindtap="cancelEditName">取消</button>
+          </view>
+        </view>
+
+        <view class="info-row">
+          <text class="info-label">邀请码</text>
+          <view class="invite-code-row">
+            <text class="invite-code">IPNIVN</text>
+            <button class="btn-copy" bindtap="copyInvite" hover-class="btn-copy-hover">
+              <text>复制</text>
+            </button>
+          </view>
+        </view>
+
+    <view class="stats-section">
+      <view class="stat-card">
+        <text class="stat-value">{{family.members.length}}</text>
+        <text class="stat-label">成员数</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-value">{{adminCount}}</text>
+        <text class="stat-label">管理员</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-value">{{createTime}}</text>
+        <text class="stat-label">创建时间</text>
+      </view>
+    </view>
+
+        <view wx:if="{{canDissolve}}" class="danger-zone">
+          <button class="btn-danger" bindtap="dissolveFamily" disabled="{{saving}}" hover-class="btn-danger-hover">
+            解散家庭
+          </button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 成员列表 -->
+    <view class="card">
+      <view class="card-header">
+        <text class="card-title">👥 成员列表</text>
+        <text class="member-count">{{family.members.length}}人</text>
+      </view>
+
+      <view class="member-list">
+        <view wx:for="{{family.members}}" wx:key="id" class="member-item">
+          <view class="member-avatar">
+            <text>{{item.name.charAt(0)}}</text>
+          </view>
+          <view class="member-info">
+            <text class="member-name">{{item.name}}</text>
+            <text class="member-role {{item.familyRole}}">{{getRoleName(item.familyRole)}}</text>
+          </view>
+          <view wx:if="{{canManage && item.familyRole !== 'owner'}}" class="member-actions">
+            <button class="btn-action" data-member="{{item}}" bindtap="toggleAdmin" hover-class="btn-action-hover">
+              <text>{{item.familyRole === 'admin' ? '取消管理' : '设管理'}}</text>
+            </button>
+            <button class="btn-action btn-danger-sm" data-member="{{item}}" bindtap="removeMember" hover-class="btn-action-hover">
+              <text>移除</text>
+            </button>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{!family.members.length}}" class="empty-state">
+        <text class="empty-icon">👥</text>
+        <text class="empty-text">暂无成员</text>
+      </view>
+    </view>
   </view>
-  <view wx:if="{{!loading && !errorText && isSuperAdmin}}" class="card">
-    <view class="section-title">全部家庭（超级管理员）</view>
-    <view wx:for="{{families}}" wx:key="id" class="member-row">
-      <view>{{item.name}}（{{item.members.length}}人）</view>
-      <view class="subtle" wx:for="{{item.members}}" wx:key="id">{{item.name}} · {{item.familyRole}}</view>
+
+
+    <!-- 加入其他家庭 -->
+    <view class="card">
+      <view class="card-header">
+        <text class="card-title">➕ 加入其他家庭</text>
+      </view>
+
+      <view class="join-other-content">
+        <view class="input-wrapper">
+          <input class="input-underline" data-f="inviteCode" value="{{inviteCode}}" bindinput="onInput" placeholder="输入邀请码" bindconfirm="joinByInvite" />
+        </view>
+        <button class="btn-orange btn-large" bindtap="joinByInvite" disabled="{{saving}}">
+          {{saving ? '加入中...' : '加入家庭'}}
+        </button>
+      </view>
+    </view>
+
+    <!-- 我的家庭列表 -->
+    <view class="card">
+      <view class="card-header">
+        <text class="card-title">🏠 我的家庭</text>
+        <text class="family-count">{{memberships.length}}个家庭</text>
+      </view>
+
+      <view class="my-family-list">
+        <view wx:for="{{memberships}}" wx:key="id" class="my-family-item {{item.id === family.id ? 'active' : ''}}" data-family-id="{{item.id}}" bindtap="switchFamily">
+          <view class="family-icon">
+            <text>🏠</text>
+          </view>
+          <view class="family-main-info">
+            <text class="family-name-text">{{item.name}}</text>
+            <text class="family-role-text">{{item.role === 'owner' ? '创建者' : item.role === 'admin' ? '管理员' : '成员'}}</text>
+          </view>
+          <view class="family-status">
+            <text wx:if="{{item.id === family.id}}" class="active-badge">当前</text>
+            <text wx:else class="switch-hint">切换</text>
+          </view>
+        </view>
+
+        <view wx:if="{{!memberships.length}}" class="empty-state">
+          <text class="empty-icon">🏠</text>
+          <text class="empty-text">暂无家庭</text>
+        </view>
+      </view>
+    </view>
+
+  <!-- 超级管理员视图 -->
+  <view wx:if="{{isSuperAdmin}}" class="card">
+    <view class="card-header">
+      <text class="card-title">🌟 全部家庭</text>
+    </view>
+    <view class="family-list">
+      <view wx:for="{{families}}" wx:key="id" class="family-item">
+        <text class="family-name">{{item.name}}</text>
+        <text class="family-info">{{item.members.length}}人</text>
+      </view>
     </view>
   </view>
 </view>

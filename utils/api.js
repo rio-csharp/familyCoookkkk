@@ -57,6 +57,7 @@ module.exports = {
   initData: () => call("init"),
   getHomeData: (keyword) => call("getHomeData", { keyword: keyword || "" }),
   getCommunityData: (keyword) => call("getCommunityData", { keyword: keyword || "" }),
+  listRecipes: () => call("listRecipes"),
   getRecipeDetail: (id) => call("getRecipeDetail", { id }),
   saveRecipe: (payload) => call("saveRecipe", payload),
   deleteRecipe: (id) => call("deleteRecipe", { id }),

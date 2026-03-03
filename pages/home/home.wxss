@@ -1,9 +1,6 @@
+/* 首页 */
 .hero {
   background: linear-gradient(145deg, #fff7ef, #fff);
-}
-
-.panel-btns {
-  margin-top: 6rpx;
 }
 
 .recipe-card {
@@ -19,12 +16,17 @@
 
 .fab-create {
   position: fixed;
-  right: 28rpx;
-  bottom: 130rpx;
+  right: 20rpx;
+  bottom: 20rpx;
   z-index: 99;
-  border-radius: 999rpx !important;
-  padding: 0 28rpx;
-  background: #ff8a3d !important;
+  border-radius: 200rpx !important;
+  padding: 2 5rpx;
+  background: var(--color-orange-400) !important;
   color: #fff !important;
   box-shadow: 0 10rpx 22rpx rgba(232, 118, 38, 0.3);
 }
+
+
+
+
+

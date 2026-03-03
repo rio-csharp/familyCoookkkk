@@ -1,25 +1,227 @@
-page { background: #fff7f1; font-size: 28rpx; color: #40352d; }
-.container { padding: 24rpx; }
-.card { background: #fff; border-radius: 20rpx; padding: 24rpx; margin-bottom: 20rpx; box-shadow: 0 8rpx 20rpx rgba(232, 118, 38, 0.08); }
-.title { font-size: 36rpx; font-weight: 700; color: #8a4b20; }
-.section-title { font-size: 30rpx; font-weight: 600; margin: 8rpx 0 16rpx; color: #7a4521; }
-.subtle { color: #ab8a72; font-size: 24rpx; }
-.input { min-height: 74rpx; background: #fff3e8; border: 1rpx solid #ffd8b5; border-radius: 14rpx; padding: 0 18rpx; margin-bottom: 12rpx; }
-.textarea { width: 100%; min-height: 150rpx; background: #fff3e8; border: 1rpx solid #ffd8b5; border-radius: 14rpx; padding: 14rpx 18rpx; box-sizing: border-box; margin-bottom: 12rpx; }
-.tag { display: inline-block; background: #fff0df; color: #ad5a20; border-radius: 999rpx; padding: 6rpx 14rpx; margin-right: 8rpx; font-size: 22rpx; }
-.meta { color: #ab8a72; font-size: 24rpx; margin-top: 8rpx; }
-.btn-row { display: flex; flex-wrap: wrap; gap: 10rpx; }
-.btn-primary { background: #ff8a3d !important; color: #fff !important; border-radius: 12rpx; }
-.btn-light { background: #fff1e4 !important; color: #c76621 !important; border: 1rpx solid #ffd5b0; border-radius: 12rpx; }
+/* 主题色定义 */
+page {
+  --color-orange-50: #fff7f1;
+  --color-orange-100: #fff1e4;
+  --color-orange-200: #ffe5cc;
+  --color-orange-300: #ffd8b5;
+  --color-orange-400: #ff8a3d;
+  --color-orange-500: #e87626;
+  --color-orange-600: #d7681a;
+  --color-brown-50: #40352d;
+  --color-brown-100: #ab8a72;
+  --color-brown-200: #8a4b20;
+  --color-brown-300: #7a4521;
+  --color-brown-400: #c76621;
+  --color-brown-500: #ad5a20;
+  --color-red-50: #c44c30;
+}
+
+/* 页面基础样式 */
+page {
+  background: var(--color-orange-50);
+  font-size: 28rpx;
+  color: var(--color-brown-50);
+}
+
+/* 容器 */
+.container {
+  padding: 24rpx;
+}
+
+/* 卡片 */
+.card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 8rpx 20rpx rgba(232, 118, 38, 0.08);
+}
+
+/* 标题 */
+.title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--color-brown-200);
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin: 8rpx 0 16rpx;
+  color: var(--color-brown-300);
+}
+
+/* 辅助文字 */
+.subtle {
+  color: var(--color-brown-100);
+  font-size: 24rpx;
+}
+
+/* 输入框 */
+.input {
+  min-height: 74rpx;
+  background: var(--color-orange-100);
+  border: 1rpx solid var(--color-orange-300);
+  border-radius: 14rpx;
+  padding: 0 18rpx;
+  margin-bottom: 12rpx;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 150rpx;
+  background: var(--color-orange-100);
+  border: 1rpx solid var(--color-orange-300);
+  border-radius: 14rpx;
+  padding: 14rpx 18rpx;
+  box-sizing: border-box;
+  margin-bottom: 12rpx;
+}
+
+/* 标签 */
+.tag {
+  display: inline-block;
+  background: var(--color-orange-100);
+  color: var(--color-brown-500);
+  border-radius: 999rpx;
+  padding: 6rpx 14rpx;
+  margin-right: 8rpx;
+  font-size: 22rpx;
+}
+
+/* 元信息 */
+.meta {
+  color: var(--color-brown-100);
+  font-size: 24rpx;
+  margin-top: 8rpx;
+}
+
+/* 按钮行 */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+
+/* 主按钮 */
+.btn-primary {
+  background: var(--color-orange-400) !important;
+  color: #fff !important;
+  border-radius: 12rpx;
+}
+
+/* 次按钮 */
+.btn-light {
+  background: var(--color-orange-100) !important;
+  color: var(--color-brown-400) !important;
+  border: 1rpx solid var(--color-orange-200);
+  border-radius: 12rpx;
+}
+
+/* 禁用状态 */
 .btn-primary[disabled],
 .btn-light[disabled] {
   opacity: 0.55;
 }
+
+/* 状态卡片 */
 .state-card {
   text-align: center;
-  color: #8a6042;
+  color: var(--color-brown-200);
 }
+
+/* 错误文字 */
 .error-text {
-  color: #c44c30;
+  color: var(--color-red-50);
   margin-bottom: 10rpx;
 }
+
+/* 额外的工具类 - 仅保留 WXML 中实际使用的 */
+.w-full {
+  width: 100% !important;
+}
+
+.flex-1 {
+  flex: 1 !important;
+}
+
+.flex {
+  display: flex !important;
+}
+
+.items-center {
+  align-items: center !important;
+}
+
+.justify-center {
+  justify-content: center !important;
+}
+
+.gap-2 {
+  gap: 8rpx !important;
+}
+
+.mt-2 {
+  margin-top: 8rpx !important;
+}
+
+.mt-4 {
+  margin-top: 16rpx !important;
+}
+
+.mb-2 {
+  margin-bottom: 8rpx !important;
+}
+
+.mb-3 {
+  margin-bottom: 12rpx !important;
+}
+
+.mb-4 {
+  margin-bottom: 16rpx !important;
+}
+
+.mb-6 {
+  margin-bottom: 24rpx !important;
+}
+
+.my-2 {
+  margin-top: 8rpx !important;
+  margin-bottom: 8rpx !important;
+}
+
+.py-4 {
+  padding-top: 16rpx !important;
+  padding-bottom: 16rpx !important;
+}
+
+.py-8 {
+  padding-top: 32rpx !important;
+  padding-bottom: 32rpx !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-lg {
+  font-size: 32rpx !important;
+}
+
+.font-semibold {
+  font-weight: 600 !important;
+}
+
+.block {
+  display: block !important;
+}
+
+.space-y-2 > view + view,
+.space-y-2 > text + text {
+  margin-top: 8rpx !important;
+}
+
+
+
+
+

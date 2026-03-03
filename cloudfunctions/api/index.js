@@ -372,6 +372,10 @@ exports.main = async (event) => {
       const community = state.recipes.filter((r) => r.visibility === "community");
       return { ok: true, data: { recipes: recipesWithMeta(state, community, payload.keyword) } };
     }
+    if (action === "listRecipes") {
+      requireLoginUser(state, openid);
+      return { ok: true, data: { list: state.recipes } };
+    }
     if (action === "getRecipeDetail") {
       me = requireLoginUser(state, openid);
       syncUserActiveContext(state, me);

@@ -1,1 +1,162 @@
+/* 食谱编辑页 */
+.edit-card {
+  padding: 32rpx 24rpx;
+}
 
+/* 页面头部 */
+.page-header {
+  text-align: center;
+  margin-bottom: 40rpx;
+  padding-bottom: 24rpx;
+  border-bottom: 1rpx solid var(--color-orange-200);
+}
+
+.header-icon {
+  font-size: 64rpx;
+  margin-bottom: 12rpx;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--color-brown-200);
+  margin-bottom: 8rpx;
+}
+
+.header-desc {
+  font-size: 24rpx;
+  color: var(--color-brown-100);
+}
+
+/* 表单区域 */
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
+}
+
+.form-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.form-label {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-brown-300);
+  position: relative;
+  padding-left: 16rpx;
+}
+
+.form-label.required::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6rpx;
+  height: 6rpx;
+  background: var(--color-orange-400);
+  border-radius: 50%;
+}
+
+.input-tip {
+  font-size: 22rpx;
+  color: var(--color-brown-100);
+  padding: 0 4rpx;
+}
+
+.form-tip {
+  font-size: 22rpx;
+  color: var(--color-brown-100);
+  padding: 0 4rpx;
+}
+
+.textarea.small {
+  min-height: 120rpx;
+}
+
+/* 可见性选项 */
+.visibility-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.visibility-option {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  background: var(--color-orange-50);
+  border: 2rpx solid transparent;
+  border-radius: 16rpx;
+  transition: all 0.3s;
+}
+
+.visibility-option.active {
+  background: linear-gradient(135deg, var(--color-orange-100), var(--color-orange-50));
+  border-color: var(--color-orange-300);
+  box-shadow: 0 4rpx 12rpx rgba(232, 118, 38, 0.15);
+}
+
+.visibility-icon {
+  font-size: 48rpx;
+  margin-right: 20rpx;
+}
+
+.visibility-info {
+  flex: 1;
+}
+
+.visibility-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-brown-300);
+  margin-bottom: 4rpx;
+}
+
+.visibility-desc {
+  font-size: 22rpx;
+  color: var(--color-brown-100);
+}
+
+.visibility-check {
+  width: 44rpx;
+  height: 44rpx;
+  background: var(--color-orange-400);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+/* 保存区域 */
+.save-section {
+  margin-top: 40rpx;
+  padding-top: 24rpx;
+  border-top: 1rpx solid var(--color-orange-200);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.save-btn {
+  width: 400rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  border-radius: 44rpx;
+  box-shadow: 0 8rpx 24rpx rgba(232, 118, 38, 0.3);
+}
+
+/* 输入框聚焦态优化 */
+.input:focus,
+.textarea:focus {
+  border-color: var(--color-orange-400);
+  background: #fff;
+}

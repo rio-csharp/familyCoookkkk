@@ -1,3 +1,4 @@
+/* 社区页面 */
 .hero {
   background: linear-gradient(145deg, #fff7ef, #fff);
 }
@@ -12,3 +13,7 @@
   color: #7b441e;
   margin-bottom: 8rpx;
 }
+
+
+
+

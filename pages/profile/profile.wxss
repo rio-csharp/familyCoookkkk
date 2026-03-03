@@ -1,15 +1,350 @@
 
+/* 个人中心页面 - 重新设计 */
+
+/* 用户头部卡片 */
+.profile-header {
+  position: relative;
+  margin-bottom: 20rpx;
+  padding-bottom: 20rpx;
+}
+
+.header-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--color-orange-400) 0%, var(--color-orange-500) 100%);
+  border-radius: 0 0 40rpx 40rpx;
+  z-index: 0;
+}
+
+.header-content {
+  position: relative;
+  padding: 60rpx 24rpx 24rpx;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+.user-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  border: 4rpx solid #fff;
+  margin-right: 20rpx;
+  background: #fff;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-nick {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--color-brown-50);
+  margin-bottom: 8rpx;
+}
+
+.user-role {
+  font-size: 24rpx;
+  color: rgba(64, 53, 45, 0.7);
+  background: rgba(255, 255, 255, 0.3);
+  display: inline-block;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+}
+
+.edit-btn {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 24rpx;
+  padding: 8rpx 20rpx;
+  font-size: 24rpx;
+  color: #fff;
+}
+
+/* 统计数据行 */
+.stats-row {
+  position: relative;
+  display: flex;
+  padding: 24rpx;
+  background: #fff;
+  margin: 0 24rpx 20rpx;
+  border-radius: 20rpx;
+  box-shadow: 0 8rpx 20rpx rgba(232, 118, 38, 0.08);
+  z-index: 2;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-num {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: var(--color-orange-400);
+  margin-bottom: 4rpx;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: var(--color-brown-100);
+}
+
+.stat-divider {
+  width: 1rpx;
+  background: #ffe5cc;
+}
+
+/* 当前家庭卡片 */
+.current-family-card {
+  margin-top: 20rpx;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.family-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-orange-500);
+}
+
+.family-members {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.member-avatar {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  border: 2rpx solid var(--color-orange-300);
+  background: #fff;
+}
+
+.member-count {
+  font-size: 22rpx;
+  color: var(--color-brown-100);
+  margin-left: 8rpx;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* 功能菜单 */
+.menu-card {
+  margin-top: 20rpx;
+}
+
+.menu-list {
+  margin-top: 12rpx;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #ffe7d1;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-icon {
+  font-size: 36rpx;
+  width: 44rpx;
+}
+
+.menu-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: var(--color-brown-50);
+}
+
+.menu-arrow {
+  font-size: 36rpx;
+  color: var(--color-brown-100);
+}
+
+/* 退出登录 */
+.logout-card {
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.logout-btn {
+  color: var(--color-red-50) !important;
+  border-color: #ffcccc !important;
+  background: #fff5f5 !important;
+}
+
+/* 弹窗 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-content {
+  width: 600rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  animation: modalIn 0.3s ease-out;
+}
+
+.modal-small {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx;
+  border-bottom: 1rpx solid #ffe7d1;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.modal-close {
+  font-size: 36rpx;
+  color: var(--color-brown-100);
+  padding: 4rpx;
+}
+
+.modal-body {
+  padding: 24rpx;
+  max-height: 500rpx;
+  overflow-y: auto;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 12rpx;
+  padding: 16rpx 24rpx 24rpx;
+  border-top: 1rpx solid #ffe7d1;
+}
+
+.modal-footer button {
+  flex: 1;
+}
+
+/* 表单 */
+.form-group {
+  margin-bottom: 20rpx;
+}
+
+.form-label {
+  display: block;
+  font-size: 24rpx;
+  color: var(--color-brown-100);
+  margin-bottom: 8rpx;
+}
+
+/* 家庭切换 */
+.family-switch-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16rpx;
+  border-bottom: 1rpx solid #ffe7d1;
+}
+
+.family-switch-item:last-child {
+  border-bottom: none;
+}
+
+.family-info {
+  flex: 1;
+}
+
+.family-switch-name {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-brown-50);
+  margin-bottom: 4rpx;
+}
+
+.family-switch-role {
+  font-size: 22rpx;
+  color: var(--color-brown-100);
+}
+
+/* 全部家庭 */
+.all-family-item {
+  padding: 16rpx;
+  border-bottom: 1rpx solid #ffe7d1;
+}
+
+.all-family-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-brown-50);
+  margin-bottom: 8rpx;
+}
+
+.all-family-meta {
+  font-size: 22rpx;
+  color: var(--color-orange-500);
+  margin-bottom: 8rpx;
+}
+
+.all-family-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.all-family-members text {
+  background: var(--color-orange-100);
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+  font-size: 20rpx;
+}
+
+/* 工具类复用 */
 .me-row {
   display: flex;
   align-items: center;
-  margin-bottom: 14rpx;
 }
 
 .avatar {
   width: 88rpx;
   height: 88rpx;
   border-radius: 50%;
-  overflow: hidden;
   margin-right: 14rpx;
 }
 
@@ -30,3 +365,16 @@
   border-bottom: 1rpx solid #ffe7d1;
   padding: 10rpx 0;
 }
+
+.tag-active {
+  display: inline-block;
+  background: var(--color-orange-400);
+  color: #fff;
+  font-size: 20rpx;
+  padding: 4rpx 8rpx;
+  border-radius: 8rpx;
+  margin-left: 8rpx;
+}
+
+
+

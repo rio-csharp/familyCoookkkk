@@ -1,16 +1,68 @@
 <view class="container">
-  <view class="card">
-    <view class="section-title">{{id ? "编辑食谱" : "新建食谱"}}</view>
-    <input class="input" data-f="title" value="{{title}}" bindinput="onInput" placeholder="标题" />
-    <textarea class="textarea" data-f="description" value="{{description}}" bindinput="onInput" placeholder="简介"></textarea>
-    <input class="input" data-f="tags" value="{{tags}}" bindinput="onInput" placeholder="标签，逗号分隔" />
-    <view class="subtle">发布范围</view>
-    <radio-group class="btn-row" bindchange="onVisibilityChange">
-      <label><radio value="family" checked="{{visibility === 'family'}}" />仅家庭可见</label>
-      <label><radio value="community" checked="{{visibility === 'community'}}" />公开到社区</label>
-    </radio-group>
-    <textarea class="textarea" data-f="ingredients" value="{{ingredients}}" bindinput="onInput" placeholder="食材，每行 名称|用量"></textarea>
-    <textarea class="textarea" data-f="steps" value="{{steps}}" bindinput="onInput" placeholder="步骤，每行一步"></textarea>
-    <button class="btn-primary" bindtap="save" disabled="{{saving}}">保存</button>
+  <view class="card edit-card">
+    <view class="page-header">
+      <view class="header-icon">📝</view>
+      <view class="header-title">{{id ? "编辑食谱" : "新建食谱"}}</view>
+      <view class="header-desc">{{id ? "修改你的美食作品" : "分享你的美食秘方"}}</view>
+    </view>
+
+    <view class="form-section">
+      <view class="form-item">
+        <view class="form-label required">食谱名称</view>
+        <input class="input" data-f="title" value="{{title}}" bindinput="onInput" placeholder="给你的美食起个好听的名字" />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">简介描述</view>
+        <textarea class="textarea small" data-f="description" value="{{description}}" bindinput="onInput" placeholder="简单介绍一下这道菜的特色..." maxlength="200"></textarea>
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">标签</view>
+        <input class="input" data-f="tags" value="{{tags}}" bindinput="onInput" placeholder="用逗号分隔，如：家常菜,下饭" />
+        <view class="form-tip">例如：家常菜、下饭、快手菜</view>
+      </view>
+
+      <view class="form-item">
+        <view class="form-label required">发布范围</view>
+        <view class="visibility-options">
+          <view class="visibility-option {{visibility === 'family' ? 'active' : ''}}" bindtap="onSelectFamily">
+            <view class="visibility-icon">👨‍👩‍👧‍👦</view>
+            <view class="visibility-info">
+              <view class="visibility-name">仅家庭可见</view>
+              <view class="visibility-desc">只有家庭成员能看到</view>
+            </view>
+            <view class="visibility-check" wx:if="{{visibility === 'family'}}">✓</view>
+          </view>
+          <view class="visibility-option {{visibility === 'community' ? 'active' : ''}}" bindtap="onSelectCommunity">
+            <view class="visibility-icon">🌍</view>
+            <view class="visibility-info">
+              <view class="visibility-name">公开到社区</view>
+              <view class="visibility-desc">所有用户都能看到</view>
+            </view>
+            <view class="visibility-check" wx:if="{{visibility === 'community'}}">✓</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <view class="form-label required">食材清单</view>
+        <view class="input-tip">每行格式：名称|用量</view>
+        <textarea class="textarea" data-f="ingredients" value="{{ingredients}}" bindinput="onInput" placeholder="例如：鸡蛋|2个"></textarea>
+      </view>
+
+      <view class="form-item">
+        <view class="form-label required">制作步骤</view>
+        <view class="input-tip">每行一个步骤</view>
+        <textarea class="textarea" data-f="steps" value="{{steps}}" bindinput="onInput" placeholder="例如：将鸡蛋打散"></textarea>
+      </view>
+    </view>
+
+    <view class="save-section">
+      <button class="btn-primary" bindtap="save" disabled="{{saving}}">
+        <text class="flex align-center justify-center" wx:if="{{!saving}}">保存食谱</text>
+        <text wx:if="{{saving}}">保存中...</text>
+      </button>
+    </view>
   </view>
 </view>

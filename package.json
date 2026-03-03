@@ -1,0 +1,16 @@
+{
+  "name": "family-recipe-platform",
+  "version": "1.0.0",
+  "description": "家庭食谱分享和管理平台",
+  "scripts": {
+    "build:tailwind": "tailwindcss -i ./tailwind.css -o ./tailwind-built.css --minify",
+    "watch:tailwind": "tailwindcss -i ./tailwind.css -o ./tailwind-built.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  },
+  "main": "app.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,7 +1,7 @@
 const api = require("../../utils/api");
 
 Page({
-  data: { shoppingList: [], newItem: "", timerMin: "20", remain: 0, timerText: "00:00", randomText: "", loading: false, errorText: "", busy: false },
+  data: { shoppingList: [], newItem: "", timerValue: "20", timerUnit: "min", remain: 0, timerText: "00:00", randomText: "", loading: false, errorText: "", busy: false },
   timer: null,
   async onShow() { await this.reload(); },
   onUnload() { this.stopTimer(); },
@@ -17,6 +17,9 @@ Page({
     }
   },
   onInput(e) { this.setData({ [e.currentTarget.dataset.f]: e.detail.value }); },
+  selectUnit(e) {
+    this.setData({ timerUnit: e.currentTarget.dataset.unit });
+  },
   async addItem() {
     if (this.data.busy) return;
     const v = this.data.newItem.trim();
@@ -41,10 +44,10 @@ Page({
     }
   },
   startTimer() {
-    const min = Number(this.data.timerMin);
-    if (!min || min <= 0) return wx.showToast({ title: "请输入分钟", icon: "none" });
+    const value = Number(this.data.timerValue);
+    if (!value || value <= 0) return wx.showToast({ title: "请输入时间", icon: "none" });
     this.stopTimer();
-    let sec = min * 60;
+    let sec = this.data.timerUnit === "min" ? value * 60 : value * 3600;
     this.setData({ remain: sec, timerText: this.formatTime(sec) });
     this.timer = setInterval(() => {
       sec -= 1;
@@ -66,8 +69,12 @@ Page({
     this.setData({ randomText: "今日推荐：" + one.title });
   },
   formatTime(sec) {
-    const min = Math.floor(sec / 60).toString().padStart(2, "0");
+    const hour = Math.floor(sec / 3600);
+    const min = Math.floor((sec % 3600) / 60).toString().padStart(2, "0");
     const s = (sec % 60).toString().padStart(2, "0");
+    if (hour > 0) {
+      return hour + ":" + min + ":" + s;
+    }
     return min + ":" + s;
   }
 });
