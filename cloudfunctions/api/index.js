@@ -38,6 +38,7 @@ function defaults() {
         authorId: "u1",
         visibility: "community",
         comments: [{ id: "c1", userId: "u2", content: "很好吃！", createdAt: now }],
+        views: 100,
         createdAt: now,
         updatedAt: now
       }
@@ -426,6 +427,12 @@ exports.main = async (event) => {
       const activeFamilyId = me.activeFamilyId || me.familyId || "";
       const sameFamily = !!author && !!activeFamilyId && author.familyId === activeFamilyId;
       if (recipe.visibility !== "community" && !sameFamily && !isSuperAdmin(state, me)) throw new Error("无权限查看该食谱");
+
+      // 增加浏览量
+      if (!recipe.views) recipe.views = 0;
+      recipe.views++;
+      await persist(state);
+
       const liked = (state.recipeLikesByUser[me.id] || []).includes(recipe.id);
       const favorited = (state.recipeFavoritesByUser[me.id] || []).includes(recipe.id);
       return {
@@ -589,6 +596,8 @@ exports.main = async (event) => {
       me = requireLoginUser(state, openid);
       const name = (payload.nickname || "").trim();
       const phone = (payload.phone || "").trim();
+      const avatar = (payload.avatar || "").trim();
+
       if (name) me.name = name;
       if (phone) {
         if (!validPhone(phone)) throw new Error("手机号需为11位数字");
@@ -596,6 +605,8 @@ exports.main = async (event) => {
         if (existed && existed.id !== me.id) throw new Error("手机号已被占用");
         me.phone = phone;
       }
+      if (avatar) me.avatar = avatar;
+
       await persist(state);
       return { ok: true, data: { user: safeUser(me), isSuperAdmin: isSuperAdmin(state, me) } };
     }
@@ -713,6 +724,41 @@ exports.main = async (event) => {
         return { ok: true, data: result.data };
       }
       throw new Error("AI连通性检查失败: " + ((result.data && result.data.message) || "未知错误"));
+    }
+
+    if (action === "getHotRecipes") {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const recipes = state.recipes.filter(r => r.visibility === "community");
+
+      const hotRecipes = recipes.map(recipe => {
+        const likes = state.recipeLikesByUser ?
+          Object.values(state.recipeLikesByUser).filter(userLikes => userLikes[recipe.id]).length : 0;
+        const views = recipe.views || 0;
+
+        const recipeDate = new Date(recipe.createdAt);
+        const isToday = recipeDate >= today;
+
+        return {
+          ...recipe,
+          hotScore: isToday ? (likes * 3 + views) : 0,
+          likes,
+          views
+        };
+      }).filter(r => r.hotScore > 0)
+        .sort((a, b) => b.hotScore - a.hotScore)
+        .slice(0, 5);
+
+      return { ok: true, data: { hotRecipes } };
+    }
+
+    if (action === "uploadAvatar") {
+      me = requireLoginUser(state, openid);
+      const fileID = payload.fileID;
+      if (!fileID) throw new Error("文件ID不能为空");
+      me.avatar = fileID;
+      await persist(state);
+      return { ok: true, data: { avatar: fileID, user: safeUser(me) } };
     }
 
     throw new Error("未知接口动作: " + action);

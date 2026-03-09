@@ -40,6 +40,13 @@
   flex: 1;
 }
 
+.user-name {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--color-brown-50);
+  margin-bottom: 8rpx;
+}
+
 .user-nick {
   font-size: 36rpx;
   font-weight: 700;
@@ -273,6 +280,39 @@
   margin-bottom: 8rpx;
 }
 
+/* 头像上传 */
+.avatar-upload {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.avatar-preview {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  border: 2rpx solid var(--color-orange-300);
+  background: #fff;
+}
+
+.avatar-placeholder {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  border: 2rpx dashed var(--color-orange-300);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-brown-100);
+  font-size: 20rpx;
+}
+
+.btn-upload {
+  padding: 8rpx 20rpx;
+  font-size: 24rpx;
+}
+
 /* 家庭切换 */
 .family-switch-item {
   display: flex;
@@ -375,6 +415,7 @@
   border-radius: 8rpx;
   margin-left: 8rpx;
 }
+
 
 
 

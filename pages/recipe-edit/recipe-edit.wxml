@@ -76,7 +76,7 @@
 
     <view class="save-section">
       <button class="btn-light mb-3" bindtap="aiOptimizeRecipe" disabled="{{aiOptimizing || saving}}">
-        <text wx:if="{{!aiOptimizing}}">✨ AI优化食谱</text>
+        <text wx:if="{{!aiOptimizing}}">✨AI优化食谱</text>
         <text wx:if="{{aiOptimizing}}">AI优化中...</text>
       </button>
       <button class="btn-primary" bindtap="save" disabled="{{saving}}">

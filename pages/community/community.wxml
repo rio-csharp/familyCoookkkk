@@ -8,7 +8,65 @@
       <button size="mini" class="btn-light" bindtap="clearKeyword" disabled="{{loading}}">清空</button>
     </view>
   </view>
-  
+
+  <!-- 热度轮播图 -->
+  <view class="hot-section" wx:if="{{hotRecipes.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">🔥 今日热门</text>
+      <text class="section-subtitle">浏览量和点赞量最高</text>
+    </view>
+    <view class="hot-swiper-container">
+      <swiper
+        class="hot-swiper"
+        autoplay="{{true}}"
+        interval="{{3000}}"
+        duration="{{500}}"
+        circular="{{true}}"
+        indicator-dots="{{true}}"
+        indicator-color="rgba(255, 138, 61, 0.3)"
+        indicator-active-color="#ff8a3d"
+        bindchange="onSwiperChange">
+        <swiper-item wx:for="{{hotRecipes}}" wx:key="id" class="hot-item" data-id="{{item.id}}" bindtap="onHotDetail">
+          <view class="hot-card">
+            <!-- 封面 -->
+            <view class="hot-cover">
+              <image wx:if="{{item.coverUrl}}" class="hot-cover-image" src="{{item.coverUrl}}" mode="aspectFill"></image>
+              <view wx:else class="hot-cover-placeholder">
+                <text class="hot-placeholder-text">{{item.title.charAt(0)}}</text>
+                <text class="hot-placeholder-emoji">🍳</text>
+              </view>
+              <!-- 热度标签 -->
+              <view class="hot-badge">
+                <text class="hot-badge-text">🔥 热度</text>
+              </view>
+            </view>
+
+            <!-- 内容 -->
+            <view class="hot-content">
+              <text class="hot-title">{{item.title}}</text>
+              <text class="hot-desc">{{item.description || '暂无描述'}}</text>
+
+              <view class="hot-meta">
+                <view class="hot-meta-item">
+                  <text class="hot-meta-icon">❤️</text>
+                  <text class="hot-meta-text">{{item.likes || 0}}</text>
+                </view>
+                <view class="hot-meta-item">
+                  <text class="hot-meta-icon">👁️</text>
+                  <text class="hot-meta-text">{{item.views || 0}}</text>
+                </view>
+                <view class="hot-meta-item">
+                  <text class="hot-meta-icon">👤</text>
+                  <text class="hot-meta-text">{{item.authorName}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </swiper-item>
+      </swiper>
+    </view>
+  </view>
+
   <!-- 标签筛选 -->
   <view class="filter-section">
     <view class="filter-header">
@@ -17,9 +75,9 @@
     </view>
     <scroll-view class="filter-tags" scroll-x="{{true}}" show-scrollbar="{{false}}">
       <view class="tag-list">
-        <view 
-          class="filter-tag {{selectedTag === item ? 'active' : ''}}" 
-          wx:for="{{commonTags}}" 
+        <view
+          class="filter-tag {{selectedTag === item ? 'active' : ''}}"
+          wx:for="{{commonTags}}"
           wx:key="*this"
           data-tag="{{item}}"
           bindtap="selectTag">
@@ -50,16 +108,16 @@
           <text class="placeholder-emoji">🍳</text>
         </view>
       </view>
-      
+
       <!-- 食谱信息 -->
       <view class="card-body">
         <text class="card-title">{{item.title}}</text>
         <text class="card-desc">{{item.description || '暂无描述'}}</text>
-        
+
         <view class="card-tags" wx:if="{{item.tags && item.tags.length}}">
           <text class="tag-item" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
         </view>
-        
+
         <view class="card-meta">
           <view class="meta-item">
             <text class="meta-icon">👤</text>
@@ -79,4 +137,5 @@
   </view>
   <view wx:if="{{!loading && !errorText && !filteredRecipes.length}}" class="card state-card">暂无公开食谱</view>
 </view>
+
 

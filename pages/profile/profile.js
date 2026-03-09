@@ -9,6 +9,7 @@ Page({
     familyData: null,
     editNickname: "",
     editPhone: "",
+    editAvatar: "",
     memberships: [],
     activeFamilyId: "",
     stats: {
@@ -27,7 +28,7 @@ Page({
       const session = await api.getSession();
       const familyData = await api.getFamily();
       const memberships = session.memberships || familyData.myMemberships || [];
-      
+
       // 计算统计数据
       const stats = {
         recipeCount: await this.getMyRecipeCount(),
@@ -40,6 +41,7 @@ Page({
         familyData,
         editNickname: (session.user && session.user.name) || "",
         editPhone: (session.user && session.user.phone) || "",
+        editAvatar: (session.user && session.user.avatar) || "",
         memberships,
         activeFamilyId: session.familyId || "",
         stats,
@@ -61,17 +63,62 @@ Page({
   },
   onInput(e) { this.setData({ [e.currentTarget.dataset.f]: e.detail.value }); },
   goFamily() { wx.navigateTo({ url: "/pages/family/family" }); },
-  
+
   // 编辑资料弹窗
   showEditProfile() { this.setData({ showEditModal: true }); },
   hideEditProfile() { this.setData({ showEditModal: false }); },
   stopPropagation() {},
-  
+
+  // 选择头像
+  chooseAvatar() {
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      sourceType: ['album', 'camera'],
+      success: (res) => {
+        const tempFilePath = res.tempFiles[0].tempFilePath;
+        this.uploadAvatar(tempFilePath);
+      }
+    });
+  },
+
+  // 上传头像
+  async uploadAvatar(filePath) {
+    if (this.data.busy) return;
+    this.setData({ busy: true });
+    try {
+      wx.showLoading({ title: '上传中...' });
+
+      // 上传到云存储
+      const cloudPath = `avatars/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.jpg`;
+      const uploadRes = await wx.cloud.uploadFile({
+        cloudPath,
+        filePath
+      });
+
+      const fileID = uploadRes.fileID;
+      this.setData({ editAvatar: fileID });
+
+      wx.hideLoading();
+      wx.showToast({ title: '上传成功', icon: 'success' });
+    } catch (e) {
+      wx.hideLoading();
+      wx.showToast({ title: '上传失败', icon: 'none' });
+      console.error('上传失败:', e);
+    } finally {
+      this.setData({ busy: false });
+    }
+  },
+
   async saveProfile() {
     if (this.data.busy) return;
     this.setData({ busy: true });
     try {
-      await api.updateProfile(this.data.editNickname.trim(), this.data.editPhone.trim());
+      await api.updateProfile(
+        this.data.editNickname.trim(),
+        this.data.editPhone.trim(),
+        this.data.editAvatar.trim()
+      );
       wx.showToast({ title: "保存成功", icon: "success" });
       this.setData({ showEditModal: false });
       await this.reload();
@@ -79,11 +126,11 @@ Page({
       this.setData({ busy: false });
     }
   },
-  
+
   // 家庭切换
   showFamilyList() { this.setData({ showFamilyModal: true }); },
   hideFamilyList() { this.setData({ showFamilyModal: false }); },
-  
+
   async switchFamily(e) {
     if (this.data.busy) return;
     const familyId = e.currentTarget.dataset.familyId;
@@ -98,11 +145,11 @@ Page({
       this.setData({ busy: false });
     }
   },
-  
+
   // 全部家庭
   showAllFamilies() { this.setData({ showAllFamilyModal: true }); },
   hideAllFamilies() { this.setData({ showAllFamilyModal: false }); },
-  
+
   // 功能入口
   goMyRecipes() {
     wx.navigateTo({ url: "/pages/my-recipes/my-recipes" });
@@ -113,7 +160,7 @@ Page({
   showHelp() {
     wx.showToast({ title: "功能开发中", icon: "none" });
   },
-  
+
   async logout() {
     if (this.data.busy) return;
     this.setData({ busy: true });

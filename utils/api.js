@@ -68,7 +68,7 @@ module.exports = {
   createFamily: (name) => call("createFamily", { name }),
   joinFamilyByInvite: (code) => call("joinFamilyByInvite", { code }),
   switchActiveFamily: (familyId) => call("switchActiveFamily", { familyId }),
-  updateProfile: (nickname, phone) => call("updateProfile", { nickname, phone }),
+  updateProfile: (nickname, phone, avatar) => call("updateProfile", { nickname, phone, avatar }),
   updateFamilyName: (name) => call("updateFamilyName", { name }),
   setFamilyAdmin: (userId, isAdmin, familyId) => call("setFamilyAdmin", { userId, isAdmin, familyId }),
   removeFamilyMember: (userId, familyId) => call("removeFamilyMember", { userId, familyId }),
@@ -85,5 +85,8 @@ module.exports = {
   aiAnswerQuestion: (question) =>
     call("aiAnswerQuestion", { question }),
   aiHealthCheck: () =>
-    call("aiHealthCheck")
+    call("aiHealthCheck"),
+  // ========== 新增接口 ==========
+  getHotRecipes: () => call("getHotRecipes"),
+  uploadAvatar: (fileID) => call("uploadAvatar", { fileID })
 };
