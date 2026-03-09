@@ -365,7 +365,48 @@ exports.main = async (event) => {
         const author = state.users.find((u) => u.id === r.authorId);
         return author && activeFamilyId && author.familyId && author.familyId === activeFamilyId;
       });
-      return { ok: true, data: { currentUser: safeUser(me), recipes: recipesWithMeta(state, ownFamilyRecipes, payload.keyword) } };
+      
+      // 获取家庭信息
+      const family = state.families.find((f) => f.id === activeFamilyId);
+      
+      // 获取热门食谱（按点赞数排序，取前5个）
+      const featuredRecipes = ownFamilyRecipes
+        .map(r => ({
+          ...r,
+          likeCount: likesCount(state, r.id)
+        }))
+        .sort((a, b) => b.likeCount - a.likeCount)
+        .slice(0, 5)
+        .map(r => ({
+          id: r.id,
+          title: r.title,
+          description: r.description || "",
+          coverUrl: r.coverUrl || "",
+          likeCount: r.likeCount,
+          authorName: userName(state, r.authorId)
+        }));
+      
+      // 统计信息
+      const stats = {
+        totalRecipes: ownFamilyRecipes.length,
+        myRecipes: ownFamilyRecipes.filter(r => r.authorId === me.id).length,
+        todayRecipes: ownFamilyRecipes.filter(r => {
+          const today = new Date().toDateString();
+          const created = new Date(r.createdAt).toDateString();
+          return created === today;
+        }).length
+      };
+      
+      return { 
+        ok: true, 
+        data: { 
+          currentUser: safeUser(me), 
+          family: family ? { id: family.id, name: family.name } : null,
+          recipes: recipesWithMeta(state, ownFamilyRecipes, payload.keyword),
+          featuredRecipes,
+          stats
+        } 
+      };
     }
     if (action === "getCommunityData") {
       requireLoginUser(state, openid);

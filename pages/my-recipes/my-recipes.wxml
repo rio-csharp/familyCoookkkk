@@ -27,28 +27,45 @@
       <text class="section-count">共 {{recipes.length}} 篇</text>
     </view>
 
-    <view class="recipe-item" wx:for="{{recipes}}" wx:key="id" bindtap="viewRecipe" data-id="{{item.id}}">
-      <view class="recipe-cover">
-        <image wx:if="{{item.coverUrl}}" class="cover-image" src="{{item.coverUrl}}" mode="aspectFill"></image>
-        <view wx:else class="cover-placeholder">{{item.title.charAt(0)}}</view>
-      </view>
-
-      <view class="recipe-info">
-        <text class="recipe-title">{{item.title}}</text>
-        <text class="recipe-desc">{{item.description || ''}}</text>
-        <view class="recipe-meta">
-          <text class="meta-item">{{item.createTime}}</text>
-          <text class="meta-item">{{item.viewCount || 0}} 次浏览</text>
+    <view class="recipe-grid">
+      <view class="recipe-card" wx:for="{{recipes}}" wx:key="id" bindtap="viewRecipe" data-id="{{item.id}}">
+        <!-- 封面图 -->
+        <view class="card-cover">
+          <image wx:if="{{item.coverUrl}}" class="cover-image" src="{{item.coverUrl}}" mode="aspectFill"></image>
+          <view wx:else class="cover-placeholder">
+            <text class="placeholder-text">{{item.title.charAt(0)}}</text>
+            <text class="placeholder-emoji">🍳</text>
+          </view>
         </view>
-      </view>
 
-      <view class="recipe-actions">
-        <button class="btn-edit" catchtap="editRecipe" data-id="{{item.id}}" hover-class="btn-hover">
-          <text>编辑</text>
-        </button>
-        <button class="btn-delete" catchtap="deleteRecipe" data-id="{{item.id}}" hover-class="btn-hover">
-          <text>删除</text>
-        </button>
+        <!-- 菜谱信息 -->
+        <view class="card-body">
+          <text class="card-title">{{item.title}}</text>
+          <text class="card-desc">{{item.description || '暂无描述'}}</text>
+          
+          <view class="card-meta">
+            <view class="meta-item">
+              <text class="meta-icon">🕐</text>
+              <text class="meta-text">{{item.createTime}}</text>
+            </view>
+            <view class="meta-item">
+              <text class="meta-icon">👁️</text>
+              <text class="meta-text">{{item.viewCount || 0}}</text>
+            </view>
+          </view>
+
+          <!-- 操作按钮 -->
+          <view class="card-actions">
+            <button class="action-btn edit-btn" catchtap="editRecipe" data-id="{{item.id}}" hover-class="none">
+              <text class="btn-icon">✏️</text>
+              <text>编辑</text>
+            </button>
+            <button class="action-btn delete-btn" catchtap="deleteRecipe" data-id="{{item.id}}" hover-class="none">
+              <text class="btn-icon">🗑️</text>
+              <text>删除</text>
+            </button>
+          </view>
+        </view>
       </view>
     </view>
   </view>

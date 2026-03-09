@@ -3,7 +3,18 @@ const api = require("../../utils/api");
 function ingToText(list) { return list.map(x => x.name + "|" + x.amount).join("\n"); }
 
 Page({
-  data: { id: "", title: "", description: "", tags: "", ingredients: "", steps: "", visibility: "family", saving: false, aiOptimizing: false },
+  data: { 
+    id: "", 
+    title: "", 
+    description: "", 
+    tags: "", 
+    ingredients: "", 
+    steps: "", 
+    visibility: "family", 
+    coverUrl: "",
+    saving: false, 
+    aiOptimizing: false 
+  },
   onLoad(opt) {
     const id = opt.id || "";
     this.setData({ id });
@@ -16,12 +27,63 @@ Page({
         tags: r.tags.join(","),
         ingredients: ingToText(r.ingredients),
         steps: r.steps.join("\n"),
-        visibility: r.visibility || "family"
+        visibility: r.visibility || "family",
+        coverUrl: r.coverUrl || ""
       });
     });
   },
   onInput(e) { this.setData({ [e.currentTarget.dataset.f]: e.detail.value }); },
-    async aiOptimizeRecipe() {
+  
+  // 选择封面图片
+  async chooseCoverImage() {
+    try {
+      const res = await wx.chooseImage({
+        count: 1,
+        sizeType: ['compressed'],
+        sourceType: ['album', 'camera']
+      });
+      
+      const tempFilePath = res.tempFilePaths[0];
+      
+      // 显示上传进度
+      wx.showLoading({ title: '上传中...', mask: true });
+      
+      // 上传到云存储
+      const cloudPath = `recipe-covers/${Date.now()}-${Math.random().toString(36).substr(2, 9)}.jpg`;
+      const uploadRes = await wx.cloud.uploadFile({
+        cloudPath,
+        filePath: tempFilePath
+      });
+      
+      wx.hideLoading();
+      
+      // 保存云存储 fileID
+      this.setData({ coverUrl: uploadRes.fileID });
+      wx.showToast({ title: '上传成功', icon: 'success' });
+      
+    } catch (error) {
+      wx.hideLoading();
+      console.error('上传封面失败:', error);
+      wx.showToast({ title: '上传失败，请重试', icon: 'none' });
+    }
+  },
+  
+  // 移除封面图片
+  removeCoverImage(e) {
+    e.stopPropagation();
+    wx.showModal({
+      title: '确认删除',
+      content: '确定要删除封面图片吗？',
+      success: (res) => {
+        if (res.confirm) {
+          this.setData({ coverUrl: '' });
+          wx.showToast({ title: '已删除', icon: 'success' });
+        }
+      }
+    });
+  },
+  
+  async aiOptimizeRecipe() {
       const title = this.data.title.trim();
       const steps = this.data.steps.split("\n").map(x => x.trim()).filter(Boolean);
       const ingredients = this.data.ingredients.split("\n").map(l => l.trim()).filter(Boolean).map(l => {
@@ -67,7 +129,8 @@ Page({
         return { name: (p[0] || "").trim(), amount: (p[1] || "适量").trim() };
       }).filter(x => x.name),
       steps,
-      visibility: this.data.visibility
+      visibility: this.data.visibility,
+      coverUrl: this.data.coverUrl || ""
     };
     this.setData({ saving: true });
     try {

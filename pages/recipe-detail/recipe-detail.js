@@ -14,6 +14,40 @@ Page({
       if (showLoading) this.setData({ loading: false });
     }
   },
+  
+  // 分享功能
+  onShareAppMessage() {
+    const recipe = this.data.recipe;
+    if (!recipe) return {};
+    return {
+      title: `【${recipe.title}】- 家庭食谱分享`,
+      path: `/pages/recipe-detail/recipe-detail?id=${this.data.id}`,
+      imageUrl: recipe.coverUrl || ""
+    };
+  },
+  
+  onShareTimeline() {
+    const recipe = this.data.recipe;
+    if (!recipe) return {};
+    return {
+      title: `【${recipe.title}】- 家庭食谱分享`,
+      query: `id=${this.data.id}`,
+      imageUrl: recipe.coverUrl || ""
+    };
+  },
+  
+  shareRecipe() {
+    wx.showShareMenu({
+      withShareTicket: true,
+      menus: ['shareAppMessage', 'shareTimeline']
+    });
+    wx.showToast({ 
+      title: "点击右上角分享", 
+      icon: "none",
+      duration: 2000
+    });
+  },
+  
   async like() { await api.toggleLike(this.data.id); await this.reload(false); },
   async favorite() { await api.toggleFavorite(this.data.id); await this.reload(false); },
   onInput(e) { this.setData({ comment: e.detail.value }); },

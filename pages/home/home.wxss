@@ -3,15 +3,471 @@
   background: linear-gradient(145deg, #fff7ef, #fff);
 }
 
+/* 筛选区域 */
+.filter-section {
+  margin-bottom: 24rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.filter-header {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 16rpx;
+}
+
+.filter-title {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.filter-count {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.filter-tags {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.tag-list {
+  display: inline-flex;
+  gap: 12rpx;
+}
+
+.filter-tag {
+  display: inline-block;
+  padding: 12rpx 24rpx;
+  background: #FFF8F3;
+  color: #666;
+  font-size: 24rpx;
+  border-radius: 20rpx;
+  border: 2rpx solid #FFE8D6;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.filter-tag.active {
+  background: linear-gradient(135deg, #F59E0B 0%, #F97316 100%);
+  color: #fff;
+  border-color: #F59E0B;
+  transform: scale(1.05);
+}
+
+.filter-tag:active {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+
+/* 欢迎横幅 */
+.welcome-banner {
+  background: linear-gradient(135deg, #F59E0B 0%, #F97316 100%);
+  border-radius: 24rpx;
+  padding: 32rpx 28rpx;
+  margin-bottom: 24rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8rpx 24rpx rgba(245, 158, 11, 0.3);
+}
+
+.welcome-content {
+  flex: 1;
+}
+
+.welcome-greeting {
+  display: flex;
+  align-items: baseline;
+  gap: 12rpx;
+  margin-bottom: 12rpx;
+}
+
+.greeting-text {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.user-name {
+  font-size: 36rpx;
+  color: #fff;
+  font-weight: 700;
+}
+
+.family-info {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.family-icon {
+  font-size: 24rpx;
+}
+
+.family-name {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.quick-actions {
+  display: flex;
+  gap: 12rpx;
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+  padding: 16rpx 20rpx;
+  border-radius: 16rpx;
+  transition: all 0.2s ease;
+}
+
+.action-btn.primary {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10rpx);
+}
+
+.action-btn.secondary {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10rpx);
+}
+
+.action-btn:active {
+  transform: scale(0.92);
+  opacity: 0.8;
+}
+
+.action-icon {
+  font-size: 32rpx;
+}
+
+.action-text {
+  font-size: 20rpx;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* 精选轮播 */
+.featured-section {
+  margin-bottom: 24rpx;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 16rpx;
+  padding: 0 10rpx;
+}
+
+.section-icon {
+  font-size: 32rpx;
+}
+
+.section-title-text {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #333;
+}
+
+.featured-scroll {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.featured-list {
+  display: inline-flex;
+  gap: 16rpx;
+  padding: 0 10rpx;
+}
+
+.featured-card {
+  display: inline-block;
+  width: 240rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.featured-card:active {
+  transform: translateY(-4rpx);
+  box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.12);
+}
+
+.featured-cover {
+  position: relative;
+  width: 100%;
+  height: 200rpx;
+  background: linear-gradient(135deg, #FFE8D6 0%, #FFD4A8 100%);
+}
+
+.featured-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.featured-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.featured-emoji {
+  font-size: 80rpx;
+  opacity: 0.4;
+}
+
+.featured-badge {
+  position: absolute;
+  top: 12rpx;
+  right: 12rpx;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 20rpx;
+  padding: 6rpx 12rpx;
+  border-radius: 20rpx;
+  backdrop-filter: blur(10rpx);
+}
+
+.featured-info {
+  padding: 16rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.featured-title {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.featured-author {
+  font-size: 20rpx;
+  color: #999;
+}
+
+/* 快捷功能区 */
+.shortcuts-section {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.shortcut-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  padding: 20rpx 12rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.shortcut-btn:active {
+  transform: translateY(-2rpx);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.shortcut-icon-bg {
+  width: 68rpx;
+  height: 68rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shortcut-icon-bg.blue {
+  background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+}
+
+.shortcut-icon-bg.green {
+  background: linear-gradient(135deg, #34D399 0%, #10B981 100%);
+}
+
+.shortcut-icon-bg.purple {
+  background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
+}
+
+.shortcut-icon-bg.orange {
+  background: linear-gradient(135deg, #F59E0B 0%, #F97316 100%);
+}
+
+.shortcut-icon {
+  font-size: 36rpx;
+}
+
+.shortcut-label {
+  font-size: 22rpx;
+  color: #666;
+  text-align: center;
+}
+
+.shortcut-count {
+  position: absolute;
+  top: 12rpx;
+  right: 12rpx;
+  background: #EF4444;
+  color: #fff;
+  font-size: 18rpx;
+  min-width: 32rpx;
+  height: 32rpx;
+  line-height: 32rpx;
+  text-align: center;
+  border-radius: 16rpx;
+  padding: 0 8rpx;
+  font-weight: 600;
+}
+
+/* 网格布局 */
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+/* 食谱卡片 */
 .recipe-card {
+  background: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 16rpx rgba(245, 158, 11, 0.08);
+  transition: all 0.3s ease;
   border: 1rpx solid #ffe5cc;
 }
 
-.recipe-title {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #7b441e;
-  margin-bottom: 8rpx;
+.recipe-card:active {
+  transform: translateY(-4rpx);
+  box-shadow: 0 8rpx 24rpx rgba(245, 158, 11, 0.15);
+}
+
+/* 封面图 */
+.card-cover {
+  width: 100%;
+  height: 280rpx;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #FFE8D6 0%, #FFD4A8 100%);
+}
+
+.cover-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cover-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+}
+
+.placeholder-text {
+  font-size: 64rpx;
+  font-weight: 700;
+  color: #F59E0B;
+  opacity: 0.3;
+}
+
+.placeholder-emoji {
+  font-size: 80rpx;
+  opacity: 0.5;
+}
+
+/* 卡片内容 */
+.card-body {
+  padding: 20rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.card-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.card-desc {
+  font-size: 22rpx;
+  color: #999;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  min-height: 66rpx;
+}
+
+/* 标签 */
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.tag-item {
+  padding: 4rpx 12rpx;
+  background: #FFF8F3;
+  color: #F59E0B;
+  font-size: 20rpx;
+  border-radius: 8rpx;
+  border: 1rpx solid #FFE8D6;
+}
+
+/* 元数据 */
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding-top: 10rpx;
+  border-top: 1rpx solid #F5F5F5;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  font-size: 20rpx;
+  color: #999;
+}
+
+.meta-icon {
+  font-size: 22rpx;
+}
+
+.meta-text {
+  font-size: 20rpx;
 }
 
 .fab-create {

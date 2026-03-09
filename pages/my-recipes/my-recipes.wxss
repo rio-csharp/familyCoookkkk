@@ -139,119 +139,167 @@ page {
   padding-bottom: 20rpx;
 }
 
-.recipe-item {
+/* 网格布局 */
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+/* 卡片容器 */
+.recipe-card {
   background: #fff;
   border-radius: 20rpx;
-  padding: 24rpx;
-  margin-bottom: 20rpx;
+  overflow: hidden;
   box-shadow: 0 4rpx 16rpx rgba(245, 158, 11, 0.08);
-  display: flex;
-  align-items: center;
   transition: all 0.3s ease;
 }
 
-.recipe-item:active {
-  transform: scale(0.98);
+.recipe-card:active {
+  transform: translateY(-4rpx);
+  box-shadow: 0 8rpx 24rpx rgba(245, 158, 11, 0.15);
 }
 
-.recipe-cover {
-  width: 160rpx;
-  height: 160rpx;
-  border-radius: 12rpx;
+/* 封面图 */
+.card-cover {
+  width: 100%;
+  height: 280rpx;
+  position: relative;
   overflow: hidden;
-  margin-right: 20rpx;
-  flex-shrink: 0;
   background: linear-gradient(135deg, #FFE8D6 0%, #FFD4A8 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .cover-image {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .cover-placeholder {
-  font-size: 48rpx;
-  font-weight: 700;
-  color: #F59E0B;
-}
-
-.recipe-info {
-  flex: 1;
-  min-width: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
 }
 
-.recipe-title {
-  font-size: 30rpx;
-  font-weight: 600;
+.placeholder-text {
+  font-size: 64rpx;
+  font-weight: 700;
+  color: #F59E0B;
+  opacity: 0.3;
+}
+
+.placeholder-emoji {
+  font-size: 80rpx;
+  opacity: 0.5;
+}
+
+/* 卡片内容区 */
+.card-body {
+  padding: 20rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.card-title {
+  font-size: 28rpx;
+  font-weight: 700;
   color: #333;
-  margin-bottom: 8rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  line-height: 1.4;
 }
 
-.recipe-desc {
-  font-size: 24rpx;
+.card-desc {
+  font-size: 22rpx;
   color: #999;
-  margin-bottom: 12rpx;
+  line-height: 1.5;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  min-height: 66rpx;
 }
 
-.recipe-meta {
+/* 元数据 */
+.card-meta {
   display: flex;
-  gap: 16rpx;
+  align-items: center;
+  gap: 20rpx;
+  padding-top: 8rpx;
+  border-top: 1rpx solid #F5F5F5;
 }
 
 .meta-item {
-  font-size: 22rpx;
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  font-size: 20rpx;
   color: #999;
 }
 
-.recipe-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12rpx;
-  margin-left: 20rpx;
+.meta-icon {
+  font-size: 24rpx;
 }
 
-.btn-edit,
-.btn-delete {
-  padding: 16rpx 24rpx;
+.meta-text {
+  font-size: 20rpx;
+}
+
+/* 操作按钮 */
+.card-actions {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 8rpx;
+}
+
+.action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4rpx;
+  padding: 16rpx 12rpx;
   border: none;
-  border-radius: 8rpx;
-  font-size: 24rpx;
+  border-radius: 12rpx;
+  font-size: 22rpx;
   font-weight: 600;
   transition: all 0.2s ease;
 }
 
-.btn-edit::after,
-.btn-delete::after {
+.action-btn::after {
   border: none;
 }
 
-.btn-edit {
-  background: #F59E0B;
-  color: #fff;
+.btn-icon {
+  font-size: 24rpx;
 }
 
-.btn-delete {
-  background: #F5F5F5;
+.edit-btn {
+  background: linear-gradient(135deg, #F59E0B 0%, #F97316 100%);
+  color: #fff;
+  box-shadow: 0 2rpx 8rpx rgba(245, 158, 11, 0.25);
+}
+
+.delete-btn {
+  background: #FFF1F0;
   color: #EF4444;
 }
 
-.btn-edit:active,
-.btn-delete:active {
-  transform: scale(0.94);
+.edit-btn:active {
   opacity: 0.8;
+  transform: scale(0.96);
+}
+
+.delete-btn:active {
+  opacity: 0.8;
+  transform: scale(0.96);
 }
 
 /* 悬浮按钮 */

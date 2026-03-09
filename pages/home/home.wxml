@@ -1,4 +1,83 @@
 <view class="container">
+  <!-- 欢迎横幅 -->
+  <view class="welcome-banner">
+    <view class="welcome-content">
+      <view class="welcome-greeting">
+        <text class="greeting-text">{{greeting}}</text>
+        <text class="user-name">{{currentUser.name}}</text>
+      </view>
+      <view class="family-info" wx:if="{{family}}">
+        <text class="family-icon">🏠</text>
+        <text class="family-name">{{family.name}}</text>
+      </view>
+    </view>
+    <view class="quick-actions">
+      <view class="action-btn primary" bindtap="goCreate">
+        <text class="action-icon">➕</text>
+        <text class="action-text">新建</text>
+      </view>
+      <view class="action-btn secondary" bindtap="goAI">
+        <text class="action-icon">✨</text>
+        <text class="action-text">AI</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 精选轮播 -->
+  <view class="featured-section" wx:if="{{featuredRecipes.length > 0}}">
+    <view class="section-header">
+      <text class="section-icon">🔥</text>
+      <text class="section-title-text">热门推荐</text>
+    </view>
+    <scroll-view class="featured-scroll" scroll-x="{{true}}" show-scrollbar="{{false}}">
+      <view class="featured-list">
+        <view class="featured-card" wx:for="{{featuredRecipes}}" wx:key="id" data-id="{{item.id}}" bindtap="goFeatured">
+          <view class="featured-cover">
+            <image wx:if="{{item.coverUrl}}" class="featured-image" src="{{item.coverUrl}}" mode="aspectFill"></image>
+            <view wx:else class="featured-placeholder">
+              <text class="featured-emoji">🍳</text>
+            </view>
+            <view class="featured-badge">❤️ {{item.likeCount}}</view>
+          </view>
+          <view class="featured-info">
+            <text class="featured-title">{{item.title}}</text>
+            <text class="featured-author">by {{item.authorName}}</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 快捷功能区 -->
+  <view class="shortcuts-section">
+    <view class="shortcut-btn" bindtap="goMyRecipes">
+      <view class="shortcut-icon-bg blue">
+        <text class="shortcut-icon">📖</text>
+      </view>
+      <text class="shortcut-label">我的食谱</text>
+      <text class="shortcut-count">{{stats.myRecipes}}</text>
+    </view>
+    <view class="shortcut-btn" bindtap="randomRecipe">
+      <view class="shortcut-icon-bg green">
+        <text class="shortcut-icon">🎲</text>
+      </view>
+      <text class="shortcut-label">随机发现</text>
+    </view>
+    <view class="shortcut-btn" bindtap="goAI">
+      <view class="shortcut-icon-bg purple">
+        <text class="shortcut-icon">🤖</text>
+      </view>
+      <text class="shortcut-label">AI推荐</text>
+    </view>
+    <view class="shortcut-btn" bindtap="goCreate">
+      <view class="shortcut-icon-bg orange">
+        <text class="shortcut-icon">✍️</text>
+      </view>
+      <text class="shortcut-label">创建食谱</text>
+    </view>
+  </view>
+
+  <!-- 搜索栏 -->
   <view class="card hero">
     <view class="search-row">
     <input class="input" value="{{keyword}}" bindinput="onInput" placeholder="搜索家庭食谱（输入标题/描述/标签）" confirm-type="search" bindconfirm="onSearch" />
@@ -7,6 +86,26 @@
       <button size="mini" class="btn-light" bindtap="clearKeyword" disabled="{{loading}}">清空</button>
     </view>
     </view>
+  </view>
+  
+  <!-- 标签筛选 -->
+  <view class="filter-section">
+    <view class="filter-header">
+      <text class="filter-title">🏷️ 快速筛选</text>
+      <text class="filter-count" wx:if="{{selectedTag}}">（{{filteredRecipes.length}} 个结果）</text>
+    </view>
+    <scroll-view class="filter-tags" scroll-x="{{true}}" show-scrollbar="{{false}}">
+      <view class="tag-list">
+        <view 
+          class="filter-tag {{selectedTag === item ? 'active' : ''}}" 
+          wx:for="{{commonTags}}" 
+          wx:key="*this"
+          data-tag="{{item}}"
+          bindtap="selectTag">
+          {{item}}
+        </view>
+      </view>
+    </scroll-view>
   </view>
   <view wx:if="{{loading}}" class="card state-card">
     <view class="flex justify-center items-center py-8">
@@ -20,15 +119,44 @@
     </view>
   </view>
   <view class="section-title">食谱列表</view>
-  <view wx:for="{{recipes}}" wx:key="id" class="card recipe-card" data-id="{{item.id}}" bindtap="goDetail">
-    <view class="recipe-title">{{item.title}}</view>
-    <view class="subtle">{{item.description}}</view>
-    <view class="flex flex-wrap gap-2 mt-2">
-      <text class="tag" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
+  <view class="recipe-grid">
+    <view wx:for="{{filteredRecipes}}" wx:key="id" class="recipe-card" data-id="{{item.id}}" bindtap="goDetail">
+      <!-- 封面图 -->
+      <view class="card-cover">
+        <image wx:if="{{item.coverUrl}}" class="cover-image" src="{{item.coverUrl}}" mode="aspectFill"></image>
+        <view wx:else class="cover-placeholder">
+          <text class="placeholder-text">{{item.title.charAt(0)}}</text>
+          <text class="placeholder-emoji">🍳</text>
+        </view>
+      </view>
+      
+      <!-- 食谱信息 -->
+      <view class="card-body">
+        <text class="card-title">{{item.title}}</text>
+        <text class="card-desc">{{item.description || '暂无描述'}}</text>
+        
+        <view class="card-tags" wx:if="{{item.tags && item.tags.length}}">
+          <text class="tag-item" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
+        </view>
+        
+        <view class="card-meta">
+          <view class="meta-item">
+            <text class="meta-icon">👤</text>
+            <text class="meta-text">{{item.authorName}}</text>
+          </view>
+          <view class="meta-item">
+            <text class="meta-icon">❤️</text>
+            <text class="meta-text">{{item.likeCount}}</text>
+          </view>
+          <view class="meta-item">
+            <text class="meta-icon">⭐</text>
+            <text class="meta-text">{{item.favoriteCount}}</text>
+          </view>
+        </view>
+      </view>
     </view>
-    <view class="meta mt-2">作者：{{item.authorName}} · 点赞 {{item.likeCount}} · 收藏 {{item.favoriteCount}}</view>
   </view>
-  <view wx:if="{{!loading && !errorText && !recipes.length}}" class="card state-card">暂无数据，点击右下角"新建食谱"开始。</view>
+  <view wx:if="{{!loading && !errorText && !filteredRecipes.length}}" class="card state-card">暂无数据，点击右下角“新建食谱”开始。</view>
   <button class="fab-create" bindtap="goCreate">新建食谱</button>
 </view>
 

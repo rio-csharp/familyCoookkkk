@@ -7,6 +7,22 @@
     </view>
 
     <view class="form-section">
+      <!-- 封面图上传 -->
+      <view class="form-item">
+        <view class="form-label">封面图片</view>
+        <view class="cover-upload-area" bindtap="chooseCoverImage">
+          <image wx:if="{{coverUrl}}" class="cover-preview" src="{{coverUrl}}" mode="aspectFill"></image>
+          <view wx:else class="upload-placeholder">
+            <text class="upload-icon">📷</text>
+            <text class="upload-text">点击上传封面图</text>
+            <text class="upload-hint">建议尺寸 750x500</text>
+          </view>
+          <view wx:if="{{coverUrl}}" class="remove-cover" catchtap="removeCoverImage">
+            <text>✕</text>
+          </view>
+        </view>
+      </view>
+
       <view class="form-item">
         <view class="form-label required">食谱名称</view>
         <input class="input" data-f="title" value="{{title}}" bindinput="onInput" placeholder="给你的美食起个好听的名字" />
