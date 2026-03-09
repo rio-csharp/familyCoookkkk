@@ -617,6 +617,63 @@ exports.main = async (event) => {
       return { ok: true, data: { success: true } };
     }
 
+    // ========== AI 相关接口 ==========
+    if (action === "aiOptimizeRecipe") {
+      requireLoginUser(state, openid);
+      const hunyuan = require("./hunyuan");
+      try {
+        const result = await hunyuan.optimizeRecipe(
+          payload.ingredients || [],
+          payload.steps || [],
+          payload.description || ""
+        );
+        if (result.ok) {
+          return { ok: true, data: result.data };
+        }
+        throw new Error(result.message || "AI优化失败");
+      } catch (e) {
+        throw new Error("AI优化出错: " + (e.message || "未知错误"));
+      }
+    }
+
+    if (action === "aiRecommendRecipes") {
+      requireLoginUser(state, openid);
+      const hunyuan = require("./hunyuan");
+      try {
+        const result = await hunyuan.recommendRecipes(payload.ingredients || []);
+        if (result.ok) {
+          return { ok: true, data: result.data };
+        }
+        throw new Error(result.message || "推荐失败");
+      } catch (e) {
+        throw new Error("推荐出错: " + (e.message || "未知错误"));
+      }
+    }
+
+    if (action === "aiAnswerQuestion") {
+      requireLoginUser(state, openid);
+      const hunyuan = require("./hunyuan");
+      try {
+        const result = await hunyuan.answerCookingQuestion(payload.question || "");
+        if (result.ok) {
+          return { ok: true, data: result.data };
+        }
+        throw new Error(result.message || "回答失败");
+      } catch (e) {
+        throw new Error("AI回答出错: " + (e.message || "未知错误"));
+      }
+    }
+
+    if (action === "aiHealthCheck") {
+      requireLoginUser(state, openid);
+      const hunyuan = require("./hunyuan");
+      const result = await hunyuan.healthCheck();
+      if (result.ok) {
+        return { ok: true, data: result.data };
+      }
+      throw new Error("AI连通性检查失败: " + ((result.data && result.data.message) || "未知错误"));
+    }
+
     throw new Error("未知接口动作: " + action);
   } catch (error) {
     return { ok: false, message: error.message || "服务异常" };

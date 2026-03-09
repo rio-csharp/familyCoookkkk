@@ -76,5 +76,14 @@ module.exports = {
   getTools: () => call("getTools"),
   addShoppingItem: (text) => call("addShoppingItem", { text }),
   removeShoppingItem: (index) => call("removeShoppingItem", { index }),
-  watchState
+  watchState,
+  // ========== AI 功能 ==========
+  aiOptimizeRecipe: (ingredients, steps, description) =>
+    call("aiOptimizeRecipe", { ingredients, steps, description }),
+  aiRecommendRecipes: (ingredients) =>
+    call("aiRecommendRecipes", { ingredients }),
+  aiAnswerQuestion: (question) =>
+    call("aiAnswerQuestion", { question }),
+  aiHealthCheck: () =>
+    call("aiHealthCheck")
 };

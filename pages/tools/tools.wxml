@@ -65,6 +65,45 @@
       <view class="random-result">{{randomText}}</view>
     </view>
 
+    <!-- AI 冰箱推荐 -->
+    <view class="card tool-card">
+      <view class="tool-header">
+        <view class="tool-icon">🤖</view>
+        <view class="tool-title">冰箱推荐菜谱</view>
+      </view>
+      <button class="btn-primary random-btn" bindtap="toggleRecommendPanel">
+        {{showRecommend ? '收起推荐面板' : '按食材智能推荐'}}
+      </button>
+      <view wx:if="{{showRecommend}}" class="mt-4">
+        <textarea
+          class="textarea"
+          placeholder="输入食材，用逗号或空格分隔，例如：番茄 鸡蛋 洋葱"
+          value="{{recommendIngredients}}"
+          bindinput="onInput"
+          data-f="recommendIngredients"
+          maxlength="200"
+        ></textarea>
+        <button class="btn-primary mt-3" bindtap="aiRecommendRecipes" disabled="{{recommendLoading}}">
+          {{recommendLoading ? '推荐中...' : '获取推荐'}}
+        </button>
+        <view wx:if="{{recommendList.length > 0}}" class="mt-4">
+          <view wx:for="{{recommendList}}" wx:key="index" class="shopping-item">
+            <text class="item-index">{{index + 1}}</text>
+            <view class="flex-1">
+              <view class="font-semibold text-brown-500">{{item.title}}</view>
+              <view class="text-brown-100 text-sm mt-1">{{item.description}}</view>
+              <view wx:if="{{item.additionalIngredients && item.additionalIngredients.length}}" class="text-brown-100 text-xs mt-1">
+                还需：{{item.additionalIngredients.join('、')}}
+              </view>
+            </view>
+          </view>
+        </view>
+        <view wx:if="{{!recommendLoading && recommendList.length === 0}}" class="empty-state mt-3">
+          输入食材后点击“获取推荐”
+        </view>
+      </view>
+    </view>
+
     <!-- 开发工具 -->
     <view class="card tool-card dev-card">
       <view class="tool-header">
@@ -73,15 +112,20 @@
       </view>
       <view class="dev-tools">
         <button class="btn-light dev-btn" bindtap="testCloudConnection" disabled="{{busy}}">
-          <view class="dev-btn-icon">☁️</view>
-          <view class="dev-btn-text">测试云开发连接</view>
+          <view class="dev-btn-icon">☁️🤖</view>
+          <view class="dev-btn-text">测试云开发 + AI连接</view>
         </button>
         <button class="btn-light dev-btn" bindtap="addSampleRecipes" disabled="{{busy}}">
           <view class="dev-btn-icon">📚</view>
-          <view class="dev-btn-text">添加示例菜谱</view>
+          <view class="dev-btn-text">初始化示例数据</view>
         </button>
       </view>
-      <text class="diagnostic-text">{{cloudTestResult || recipeResult}}</text>
+      <view wx:if="{{aiTestResult || cloudTestResult || recipeResult}}" class="diagnostic-wrapper">
+        <text class="diagnostic-text">{{aiTestResult || cloudTestResult || recipeResult}}</text>
+        <button class="copy-btn" size="mini" bindtap="copyDiagnosticText">
+          📋 复制
+        </button>
+      </view>
     </view>
   </view>
 </view>

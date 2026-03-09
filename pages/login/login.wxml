@@ -1,6 +1,6 @@
 <view class="container">
   <view class="card login-card">
-    <view class="title text-center mb-4">橙味食谱</view>
+    <view class="title text-center mb-4">家味小厨食</view>
     <view class="subtle text-center mb-6">请使用手机号+4位密码进行注册/登录</view>
     <input class="input" data-f="nickname" value="{{nickname}}" bindinput="onInput" placeholder="昵称（可选）" />
     <input class="input" data-f="phone" value="{{phone}}" bindinput="onInput" placeholder="手机号（11位）" type="number" />

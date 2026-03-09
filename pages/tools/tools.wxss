@@ -234,14 +234,37 @@
   font-size: 24rpx;
 }
 
-.diagnostic-text {
-  display: block;
-  font-size: 22rpx;
-  color: var(--color-brown-100);
-  text-align: center;
+.diagnostic-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
   padding: 12rpx;
   background: var(--color-orange-50);
   border-radius: 8rpx;
+}
+
+.diagnostic-text {
+  flex: 1;
+  font-size: 22rpx;
+  color: var(--color-brown-100);
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+.copy-btn {
+  flex-shrink: 0;
+  background: var(--color-orange-300);
+  color: white;
+  font-size: 20rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 999rpx;
+  border: none;
+  box-shadow: 0 2rpx 8rpx rgba(232, 118, 38, 0.2);
+}
+
+.copy-btn:active {
+  opacity: 0.8;
+  transform: scale(0.95);
 }
 
 /* 原有样式保留兼容 */
